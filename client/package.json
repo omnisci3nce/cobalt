@@ -4,12 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "npm run re:build && npm run js:bundle",
     "re:build": "rescript",
-    "re:start": "rescript build -w"
+    "re:start": "rescript build -w",
+    "js:bundle": "esbuild src/App.bs.js --bundle --outfile=www/dist/bundle.js",
+    "dev-server": "PORT=5000 live-server www --host=localhost"
   },
   "author": "omnisci3nce",
   "license": "ISC",
   "devDependencies": {
+    "esbuild": "^0.12.25",
+    "live-server": "^1.2.1",
     "rescript": "^9.1.4"
   },
   "dependencies": {
