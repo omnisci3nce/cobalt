@@ -1,0 +1,20 @@
+{
+  "name": "cobalt-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "re:build": "rescript",
+    "re:start": "rescript build -w"
+  },
+  "author": "omnisci3nce",
+  "license": "ISC",
+  "devDependencies": {
+    "rescript": "^9.1.4"
+  },
+  "dependencies": {
+    "@rescript/react": "^0.10.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}
