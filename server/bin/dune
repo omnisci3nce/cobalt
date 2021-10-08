@@ -1,4 +1,6 @@
 (executable
  (public_name cobalt)
  (name main)
- (libraries cobalt dream))
+ (libraries cobalt dream)
+ (preprocess (pps lwt_ppx))
+)

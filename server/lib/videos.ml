@@ -46,3 +46,18 @@ let create_video = Dream.post "/videos"
     |> Yojson.Safe.to_string
     |> Dream.json
   )
+
+let upload_video = Dream.post "/videos/:id/upload"
+(fun request ->
+  let params_list = Dream.path request in
+  let id = List.nth params_list 0 in
+  (* match id with *)
+  (* | Some id ->  *)
+  print_string id;
+    begin
+    match%lwt Dream.multipart request with
+    | `Ok ["video", _] -> Dream.html "Resdsdsa"
+    | _ -> Dream.empty `Bad_Request;
+    end
+  (* | None -> Dream.json "Not found" *)
+)
