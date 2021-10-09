@@ -1,4 +1,4 @@
 (executable
  (public_name cobalt)
  (name main)
- (libraries cobalt))
+ (libraries cobalt dream))
