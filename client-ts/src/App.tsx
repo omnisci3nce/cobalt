@@ -5,15 +5,16 @@ import VideoGrid from './components/VideoGrid';
 const useStyles = createStyles((theme) => ({
   app: {
     minHeight: '100vh',
-    backgroundColor: theme.colors.gray[1]
+    backgroundColor: theme.colors.dark[8]
   },
   header: {
     borderBottomWidth: '1px',
-    borderBottomColor: theme.colors.gray[3],
+    borderBottomColor: theme.colors.dark[3],
     borderBottomStyle: 'solid',
     padding: theme.spacing.sm,
     paddingLeft: theme.spacing.lg,
-    paddingRight: theme.spacing.lg
+    paddingRight: theme.spacing.lg,
+    backgroundColor: theme.colors.dark[7]
   }
 }));
 

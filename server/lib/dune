@@ -1,5 +1,12 @@
 (library
  (name cobalt)
- (libraries dream ppx_deriving_yojson.runtime)
- (preprocess (pps lwt_ppx ppx_deriving_yojson))
-)
+ (libraries
+  dream
+  ppx_deriving_yojson.runtime
+  caqti
+  caqti-lwt
+  caqti-driver-postgresql
+  ppx_rapper_lwt
+ )
+ (preprocess
+  (pps lwt_ppx ppx_deriving_yojson ppx_rapper)))

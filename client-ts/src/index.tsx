@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { MantineProvider, GlobalStyles } from '@mantine/core';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <MantineProvider theme={{ colorScheme: 'dark' }}>
+      <GlobalStyles />
+      <App />
+    </MantineProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

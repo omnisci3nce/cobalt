@@ -1,7 +1,7 @@
 open Cobalt
-
 let () =
   Dream.run
+  @@ Dream.sql_pool "postgres://postgres:postgres@localhost:5432/cobalt"
   @@ Dream.logger
   (* @@ Dream.origin_referer_check *)
   @@ Dream.memory_sessions
