@@ -9,6 +9,18 @@ let videos = ref [
   {
     name = "TT Video";
     filepath = "public/vid.mp4";
+  };
+  {
+    name = "Dummy video2";
+    filepath = "public/vid.mp4";
+  };
+  {
+    name = "Cat video";
+    filepath = "public/vid.mp4";
+  };
+  {
+    name = "Yeehaaa";
+    filepath = "public/vid.mp4";
   }
 ]
 
@@ -17,7 +29,10 @@ let get_all_videos = Dream.get "/videos"
     let videos = !videos in
     let json = [%to_yojson: video list] videos in
     let json_string = Yojson.Safe.to_string json in
-    Dream.json json_string
+    let headers = [("Access-Control-Allow-Origin", "*")] in
+    Dream.json
+      ~headers:headers
+      json_string
   )
 
 let create_video = Dream.post "/videos"

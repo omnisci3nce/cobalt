@@ -7,6 +7,7 @@
     "@mantine/dates": "^2.5.1",
     "@mantine/hooks": "^2.5.1",
     "@mantine/notifications": "^2.5.1",
+    "@modulz/radix-icons": "^4.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
