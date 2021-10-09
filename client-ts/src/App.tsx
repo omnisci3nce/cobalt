@@ -1,4 +1,4 @@
-import { createStyles, Group, Title, ActionIcon } from '@mantine/core';
+import { createStyles, Group, Title, ActionIcon, Button } from '@mantine/core';
 import { SunIcon, MoonIcon } from '@modulz/radix-icons';
 import VideoGrid from './components/VideoGrid';
 
@@ -20,18 +20,22 @@ const useStyles = createStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+
   return (
     <div className={classes.app}>
       <header className={classes.header}>
         <Group position="apart" withGutter>
           <Title order={4}>Cobalt</Title>
-          <ActionIcon
-            title='Toggle colour scheme'
-            variant='outline'
-            color='blue'
-          >
-            <MoonIcon style={{ width: 18, height: 18 }} />
-          </ActionIcon>
+          <Group>
+            <Button>Upload</Button>
+            <ActionIcon
+              title='Toggle colour scheme'
+              variant='outline'
+              color='blue'
+            >
+              <MoonIcon style={{ width: 18, height: 18 }} />
+            </ActionIcon>
+          </Group>
         </Group>
       </header>
       <main>
