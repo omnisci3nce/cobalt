@@ -18,6 +18,7 @@ let () =
           Dream.html "Welcome back, %s!" (Dream.html_escape username));
     Videos.get_all_videos;
     Videos.create_video;
+    Videos.get_token;
     Videos.upload_video;
     Dream.get "/static/**" (Dream.static "./static")
   ]

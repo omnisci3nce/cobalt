@@ -1,3 +1,16 @@
+let report files =
+  List.iter begin fun (name, content) ->
+   let name =
+           match name with
+         | None -> "None"
+          | Some name -> print_string name; name
+       in
+        (* print_endline (name ^ (String.length content |> string_of_int) ^  "bytes") *)
+        let oc = open_out name in
+          Printf.fprintf oc "%s" content;   
+          close_out oc;
+      end
+    files
 type video = {
   name: string;
   filepath: string;
@@ -47,16 +60,23 @@ let create_video = Dream.post "/videos"
     |> Dream.json
   )
 
+let get_token = Dream.get "/token" (fun request ->
+    let token = Dream.csrf_token request in
+    Dream.json token
+  )
+
 let upload_video = Dream.post "/videos/:id/upload"
 (fun request ->
+  let _ = Dream.csrf_token request in
   let params_list = Dream.path request in
-  let id = List.nth params_list 0 in
+  let _ = List.nth params_list 0 in
   (* match id with *)
   (* | Some id ->  *)
-  print_string id;
+  (* print_string id; *)
     begin
     match%lwt Dream.multipart request with
-    | `Ok ["video", _] -> Dream.html "Resdsdsa"
+    | `Ok ["video", files] -> report files;
+        Dream.html "Uploaded!"
     | _ -> Dream.empty `Bad_Request;
     end
   (* | None -> Dream.json "Not found" *)
