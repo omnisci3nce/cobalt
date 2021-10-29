@@ -3,4 +3,4 @@
 /lib/
 .bsb.lock
 .merlin
-www/dist/
+/dist/
