@@ -1,4 +1,4 @@
-let connection_url = "postgres://postgres:postgres@localhost:5432/cobalt"
+let connection_url = "postgres://postgres:postgres@localhost:5433/cobalt"
 let ( let* ) = Lwt.bind
 
 exception Query_failed of string
