@@ -11,9 +11,9 @@ const userParamsSchema = z.object({
   email: z.string().max(80),
 })
 
-const usersRepo = new UsersRepository()
-
 const router = Router()
+
+const usersRepo = new UsersRepository()
 
 router.get('/', async (req: Request, res: Response) => {
   const users = await usersRepo.getAll()

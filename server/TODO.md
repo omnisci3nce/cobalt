@@ -1,5 +1,6 @@
 # TODO
 
 - [ ] Setup Makefile
-- [ ] Refactor user.ts (ID + UpdatableFields + NonUpdatable)
+- [x] Refactor user.ts (ID + UpdatableFields + NonUpdatable)
 - [ ] Setup testing
+- [ ] Use UUIDs instead of auto-increment IDs

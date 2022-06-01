@@ -1,6 +1,15 @@
 import { z } from 'zod'
 import { PrimaryKey, AuditSchema } from '../../lib/common'
 
+/*
+  Videos
+
+  id
+  name
+  description
+  filename - generated when upload is called. Not updatable after that (by user)
+*/
+
 export const VideoUpdatableFieldsSchema = z.object({
   name: z.string().max(100),
   description: z.string(),
