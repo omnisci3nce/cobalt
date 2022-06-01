@@ -18,7 +18,7 @@ export const VideoUpdatableFieldsSchema = z.object({
 export type VideoUpdatableFields = z.infer<typeof VideoUpdatableFieldsSchema>
 
 export const VideoNonUpdatableFieldsSchema = z.object({
-  filename: z.string(),
+  filename: z.string().nullable(),
 })
 export type VideoNonUpdatableFields = z.infer<typeof VideoNonUpdatableFieldsSchema>
 
