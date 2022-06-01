@@ -1,5 +1,5 @@
 import CRUD from '../../lib/crud'
-import { UserSchema, UserDetailsSchema, User, UserDetails } from './user'
+import { User, UserDetails, UserDetailsSchema, UserSchema } from './user'
 import { connect } from '../../database'
 
 export default class UsersRepository extends CRUD<

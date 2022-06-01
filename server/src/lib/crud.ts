@@ -62,10 +62,11 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     const columns = Object.keys(data)
     const values = Object.values(data)
 
-    const query = `
+    const query = { text: `
     INSERT INTO ${this.tableName} (${columns.join(', ')})
-    VALUES (${values.map((v) => `'${v}'`).join(',')})
-    RETURNING id;`
+    VALUES (${values.map((_, i) => '$' + (i+1)).join(',')})
+    RETURNING id;`, values}
+    console.log(query)
     const result = await db.query(query)
 
     return result.rows[0].id
@@ -75,13 +76,16 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     const db = await connect()
     if (!db) throw new Error('Couldnt get db')
 
+    const columns = Object.keys(details)
+    const values = Object.values(details)
+
     const query = { text: `
         UPDATE ${this.tableName} SET
-          ${Object.keys(details).map((key) => {
-            return `${key} = '${details[key]}'`
+          ${Object.keys(details).map((key, i) => {
+            return `${key} = '${i + 1}'`
           }).join(', ')}
         WHERE id = ($1)${this.options.uuid && '::uuid'};`,
-        values: [id]
+        values: [id, ...values]
     }
       
 

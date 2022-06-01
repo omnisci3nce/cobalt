@@ -3,7 +3,7 @@ import UsersRepository from './users.repository'
 import { z } from 'zod'
 import { validateBody } from '../../middlewares/validation'
 import bcrypt from 'bcrypt'
-// import { authenticate } from '../../middlewares/authentication'
+import { authenticate } from '../../middlewares/authentication'
 
 const userParamsSchema = z.object({
   username: z.string().max(20),

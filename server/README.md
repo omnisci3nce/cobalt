@@ -6,6 +6,19 @@ Based on boilerplate here https://github.com/omnisci3nce/postgresql-repo
 
 - Generic CRUD for easy setup of new entities (see: `src/crud.ts`)
 
+**Features Brainstorm:**
+
+- Database Migrations
+- Login / Authentication
+- Authorisation
+  - RBAC
+  - ABAC
+- Pagination & Filterting (abstraction)
+- Logging
+- Telemetry / monitoring
+- Comprehensive testing (E2E, integration, unit)
+- Live notifications
+
 ## Setup
 
 postgres

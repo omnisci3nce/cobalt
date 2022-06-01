@@ -34,4 +34,3 @@ router.get('/logout', async (req: Request, res: Response) => {
 })
 
 export default router
-
