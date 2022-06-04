@@ -49,7 +49,7 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
     Logger.info('Updating video entity')
     await videosRepo.update(video.id, { filename: file.originalname })
     // await fs.rename(file.path, destination)
-    res.status(204).end()
+    return res.status(204).end()
     
   } catch (err) {
     return res.status(500).send(err)

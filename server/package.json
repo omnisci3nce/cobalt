@@ -1,8 +1,10 @@
 {
   "scripts": {
     "build": "tsc",
+    "secret": "npx ts-node src/index.ts",
     "start": "npm run build && node build/index.js",
     "dev": "NODE_ENV=development nodemon -e ts  --exec \"npm run start\"",
+    "prod": "npm run build && NODE_ENV=production node build/index.js",
     "test": "jest",
     "lint": "eslint ./src --ext .ts --fix"
   },

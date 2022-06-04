@@ -15,6 +15,7 @@ export default class UsersRepository extends CRUD<
     if (!db) throw new Error('Couldnt get db')
     const result = await db.query({ text: `SELECT * FROM ${this.tableName} WHERE username = $1`, values: [username] })
     // const user = UserSchema.parse(result.rows[0])
+    db.release()
     return result.rows[0]
   }
 
@@ -31,5 +32,6 @@ export default class UsersRepository extends CRUD<
     }
 
     await db.query(query)
+    db.release()
   }
 }

@@ -5,6 +5,6 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
     req.session.resetMaxAge()
     next()
   } else {
-    res.status(401).end()
+    return res.status(401).end()
   }
 }

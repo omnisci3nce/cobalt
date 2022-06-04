@@ -1,7 +1,13 @@
 import axios from 'axios'
 
 async function login(username: string, password: string) {
-  const res = await axios.post('/api/auth/login', { username, password })
+  const res = await fetch('/api/auth/login', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ username, password }) } ).then(res => res.json())
   return res
 }
 

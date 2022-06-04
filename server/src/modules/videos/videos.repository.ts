@@ -11,6 +11,7 @@ export default class VideosRepository extends CRUD<Video, VideoDetails> {
     const db = await connect()
     if (!db) throw new Error('Couldnt get db')
     const result = await db.query(`SELECT * FROM ${this.tableName} WHERE id = '${id}'`)
+    db.release()
     const user = VideoSchema.parse(result.rows[0])
     return user
   }

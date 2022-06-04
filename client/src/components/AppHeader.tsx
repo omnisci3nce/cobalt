@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Text, Header, Button, Group, TextInput, Modal, useMantineColorScheme, useMantineTheme } from '@mantine/core'
+import { Text, Header, Button, Group, TextInput, Modal, Menu, useMantineTheme, createStyles, Divider } from '@mantine/core'
 import { Link } from 'react-router-dom'
-import { Search, Upload } from 'tabler-icons-react'
+import { ChevronDown, Search, Upload } from 'tabler-icons-react'
 import UploadForm from './UploadForm'
 import LoginForm from './LoginForm'
 import { useAuth } from '../hooks/use-auth'
@@ -10,7 +10,9 @@ export default function () {
   const [uploadModalOpened, setUploadModalOpened] = useState(false)
   const [loginFormOpened, setLoginFormOpened] = useState(false)
   const theme = useMantineTheme()
-  const auth = useAuth()
+  const { classes } = useStyles()
+  const { user, login } = useAuth()
+  console.log('User: ', user)
 
   return (
     <>
@@ -30,18 +32,43 @@ export default function () {
       </Modal>
       <Header height={60} p="xs" px='xl'>
         <Group sx={{ justifyContent: 'space-between', flexWrap: 'nowrap' }}>
-          <Text weight={600} size='lg' color={theme.colorScheme === 'dark' ? 'white' : 'blue'} component={Link} to='/'>Cobalt</Text>
-          <TextInput icon={<Search size={18} />} placeholder='Search...' />
+          <Text className={classes.appHeading} weight={600} size='lg' component={Link} to='/'>Cobalt</Text>
+          <TextInput className={classes.search} icon={<Search size={18} />} placeholder='Search...' />
           <Group sx={{ flexWrap: 'nowrap' }}>
             <Button leftIcon={<Upload size={20} />} onClick={() => setUploadModalOpened(true)}>Upload</Button>
-            { auth.user ? 
-              <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button>
-              : <Button>Logout</Button>
+            {/* <Text>{ JSON.stringify(user) }</Text> */}
+            { !user && 
+            <Button onClick={() => {
+              login('Joshua', 'joshua')
+            }}>Login</Button>
             }
-           
+            {/* <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button> */}
+            { user && (
+              <Menu
+                control={<Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>}
+              >
+                <Menu.Item>
+                  Preferences
+                </Menu.Item>
+                <Divider />
+                <Menu.Item>
+                  Logout
+                </Menu.Item>
+              </Menu>
+            )}
           </Group>
         </Group>
       </Header>
     </>
   )
 }
+
+const useStyles = createStyles((theme) => ({
+  appHeading: {
+    color: theme.colorScheme === 'dark' ? 'white' : theme.colors.blue
+  },
+  search: {
+    flexGrow: 1,
+    maxWidth: '300px'
+  }
+}))

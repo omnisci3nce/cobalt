@@ -44,6 +44,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     const db = await connect()
     if (!db) throw new Error('Couldnt get db')
     const rows = await db.query(`SELECT * from ${this.tableName};`).then((res) => res.rows)
+    db.release()
     return rows.map(row => this.schema.parse(row))
   }
 
@@ -51,6 +52,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     const db = await connect()
     if (!db) throw new Error('Couldnt get db')
     const result = await db.query(`SELECT * from ${this.tableName} WHERE id = ${id}`)
+    db.release()
     return this.schema.parse(result.rows[0])
   }
 
@@ -70,6 +72,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     Logger.debug(query)
     const result = await db.query(query)
 
+    db.release()
     return result.rows[0].id
   }
 
@@ -88,9 +91,13 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
         WHERE id = ($1)${this.options.uuid && '::uuid'};`,
         values: [id, ...values]
     }
-      
+    
+    console.log(query)
 
     await db.query(query)
+    db.release()
+
+    console.log('Finished update query')
   }
 
   async delete(id: string): Promise<void> {
@@ -102,5 +109,6 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     } else {
       await db.query({ text: `DELETE FROM ${this.tableName} WHERE id = ($1)${this.options.uuid && '::uuid'};`, values: [id]})
     }
+    db.release()
   }
 }

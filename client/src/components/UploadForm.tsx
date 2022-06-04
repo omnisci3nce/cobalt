@@ -3,8 +3,7 @@ import { Button, Textarea, TextInput, InputWrapper, Box, Stack, Progress, useMan
 import { useState } from 'react'
 import { createVideo, uploadVideo } from '../services/videos.service'
 import { useMutation, useQueryClient } from 'react-query'
-import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone'
-console.log(IMAGE_MIME_TYPE)
+// import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 
 interface FormValues {
   name: string;
@@ -24,7 +23,6 @@ interface FormValues {
 export default function UploadForm({ onSuccess } : { onSuccess: () => void }) {
   // const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(null) // TODO: use react-query mutation?
-  const theme = useMantineTheme()
 
   const queryClient = useQueryClient()
   const createMutation = useMutation(createVideo)
