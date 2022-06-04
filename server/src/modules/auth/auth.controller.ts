@@ -14,16 +14,23 @@ const usersRepo = new UsersRepository()
 const router = Router()
 
 router.post('/login', async (req: Request, res: Response) => {
-  const { username, password } = req.body
-  const user = await usersRepo.getByUsername(username)
-  if (!user) return res.status(500).send('User not found')
-  const legit = await bcrypt.compare(password, user.encrypted_password)
-  if (legit) {
-    req.session.username = req.body.username
-    return res.status(200).end()
-  } else {
-    return res.status(400).send('Incorrect password')
+  try {
+    const { username, password } = req.body
+    console.log(username)
+    console.log(password)
+    const user = await usersRepo.getByUsername(username)
+    if (!user) return res.status(500).send('User not found')
+    const legit = await bcrypt.compare(password, user.encrypted_password)
+    if (legit) {
+      req.session.username = req.body.username
+      return res.status(200).end()
+    } else {
+      return res.status(400).send('Incorrect password')
+    }
+  } catch (err) {
+    console.error(err)
   }
+  
 })
 
 router.get('/logout', async (req: Request, res: Response) => {

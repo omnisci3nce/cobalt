@@ -3,7 +3,6 @@ import helmet from 'helmet'
 import session from 'express-session'
 import cors from 'cors'
 import routes from './routes'
-
 import { morgan } from './middlewares/logging'
 
 const app = express()

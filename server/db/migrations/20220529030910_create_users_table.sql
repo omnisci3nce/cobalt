@@ -1,7 +1,7 @@
 -- migrate:up
 
 create table users (
-  id bigserial primary key,
+  user_id bigserial primary key,
 
   -- details
   username varchar(20) not null unique,

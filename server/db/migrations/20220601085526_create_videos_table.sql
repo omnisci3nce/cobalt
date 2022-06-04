@@ -1,7 +1,7 @@
 -- migrate:up
 
 create table videos (
-    id uuid default gen_random_uuid() primary key,
+    video_id uuid default gen_random_uuid() primary key,
 
     -- details
     name varchar (64) not null,
@@ -11,9 +11,10 @@ create table videos (
 
     -- audit
     created_at timestamp not null default now(),
-    -- created_by bigint not null references users(id),
-    updated_at timestamp not null default now()
-    -- updated_by bigint not null references users(id)
+    created_by bigint references users(user_id) default null,
+
+    updated_at timestamp not null default now(),
+    updated_by bigint not null references users(user_id)
 );
 
 -- migrate:down

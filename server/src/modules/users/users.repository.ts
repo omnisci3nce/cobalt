@@ -14,8 +14,8 @@ export default class UsersRepository extends CRUD<
     const db = await connect()
     if (!db) throw new Error('Couldnt get db')
     const result = await db.query({ text: `SELECT * FROM ${this.tableName} WHERE username = $1`, values: [username] })
-    const user = UserSchema.parse(result.rows[0])
-    return user
+    // const user = UserSchema.parse(result.rows[0])
+    return result.rows[0]
   }
 
   async update(id: string, details: { email: string }): Promise<void> {

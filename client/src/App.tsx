@@ -11,7 +11,7 @@ function App() {
       <Box p='xl' sx={(theme) => ({
         minHeight: '100vh',
         height: '100%',
-        backgroundColor: theme.black
+        backgroundColor: theme.colorScheme === 'dark' ? theme.black : theme.colors.gray[1]
       })}>
         <Routes>
           <Route path='/' element={<Home />} />

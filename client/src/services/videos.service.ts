@@ -1,12 +1,11 @@
 import axios from 'axios'
-import { SetStateAction } from 'react'
 
 async function getVideos() {
-  return await fetch('http://localhost:8000/videos').then(res => res.json())
+  return await fetch('/api/videos').then(res => res.json())
 }
 
 async function createVideo(data: any) {
-  return await fetch('http://localhost:8000/videos', {
+  return await fetch('/api/videos', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -21,7 +20,7 @@ async function uploadVideo(videoId: string, file: File, progressCallback: any) {
   const formData = new FormData()
   formData.append('video_file', file)
   formData.append('fileName', file.name)
-  return await axios.post(`http://localhost:8000/videos/${videoId}/upload`, formData, {
+  return await axios.post(`/api/videos/${videoId}/upload`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -30,7 +29,7 @@ async function uploadVideo(videoId: string, file: File, progressCallback: any) {
 }
 
 async function deleteVideo(videoId: string) {
-  return await fetch(`http://localhost:8000/videos/${videoId}`, {
+  return await fetch(`/api/videos/${videoId}`, {
     method: 'DELETE'
   })
 }
