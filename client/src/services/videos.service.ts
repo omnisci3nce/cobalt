@@ -1,3 +1,6 @@
+import axios from 'axios'
+import { SetStateAction } from 'react'
+
 async function getVideos() {
   return await fetch('http://localhost:8000/videos').then(res => res.json())
 }
@@ -14,13 +17,15 @@ async function createVideo(data: any) {
     .then(res => res.json())
 }
 
-async function uploadVideo(videoId: string, file: File) {
-  const formData = new FormData();
-  formData.append('video_file', file);
-  formData.append('fileName', file.name);
-  return await fetch(`http://localhost:8000/videos/${videoId}/upload`, {
-    method: 'POST',
-    body: formData
+async function uploadVideo(videoId: string, file: File, progressCallback: any) {
+  const formData = new FormData()
+  formData.append('video_file', file)
+  formData.append('fileName', file.name)
+  return await axios.post(`http://localhost:8000/videos/${videoId}/upload`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    onUploadProgress: (data) => progressCallback(Math.round((100 * data.loaded) / data.total))
   })
 }
 

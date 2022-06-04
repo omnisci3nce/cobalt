@@ -1,4 +1,5 @@
 import { connect } from '../database'
+import Logger from './logger';
 
 export interface IRepo<T, D> {
   getAll(): Promise<T[]>;
@@ -66,7 +67,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     INSERT INTO ${this.tableName} (${columns.join(', ')})
     VALUES (${values.map((_, i) => '$' + (i+1)).join(',')})
     RETURNING id;`, values}
-    console.log(query)
+    Logger.debug(query)
     const result = await db.query(query)
 
     return result.rows[0].id

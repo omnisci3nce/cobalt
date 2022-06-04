@@ -4,6 +4,7 @@ import multer from 'multer'
 import fs from 'fs/promises'
 import path from 'path'
 import VideosRepository from './videos.repository'
+import Logger from '../../lib/logger'
 
 const router = Router()
 
@@ -37,15 +38,18 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
   try {
     let file = req.file
     try {
+      Logger.info(`Creating directory for ${video.id}`)
       await fs.mkdir(path.join(process.cwd(), 'uploads', video.id))
     } catch (err) {
       // 
     }
     const destination = path.resolve(process.cwd(), `uploads/${video.id}/${file.originalname}`)
+    Logger.info(`Copying ${file.path} into ${destination}`)
     await fs.copyFile(file.path, destination)
+    Logger.info('Updating video entity')
     await videosRepo.update(video.id, { filename: file.originalname })
     // await fs.rename(file.path, destination)
-    res.status(200).end()
+    res.status(204).end()
     
   } catch (err) {
     return res.status(500).send(err)
@@ -61,7 +65,7 @@ router.put('/:id', async (req: Request, res: Response) => {
 router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   await videosRepo.delete(id)
-  return res.status(200).end()
+  return res.status(204).end()
 })
 
 export default router

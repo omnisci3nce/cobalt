@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node build/index.js",
-    "dev": "nodemon -e ts  --exec \"npm run start\"",
+    "dev": "NODE_ENV=development nodemon -e ts  --exec \"npm run start\"",
     "test": "jest",
     "lint": "eslint ./src --ext .ts --fix"
   },
