@@ -38,7 +38,7 @@ export default function () {
             <Button leftIcon={<Upload size={20} />} onClick={() => setUploadModalOpened(true)}>Upload</Button>
             {/* <Text>{ JSON.stringify(user) }</Text> */}
             { !user && 
-            <Button onClick={() => {
+            <Button variant='subtle' onClick={() => {
               login('Joshua', 'joshua')
             }}>Login</Button>
             }

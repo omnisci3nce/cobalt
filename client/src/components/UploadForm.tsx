@@ -85,7 +85,7 @@ export default function UploadForm({ onSuccess } : { onSuccess: () => void }) {
           </InputWrapper>
 
 
-          <Button type='submit' color='gray'>Submit</Button>
+          <Button type='submit' color='primary'>Upload</Button>
           {uploadProgress && <Progress value={uploadProgress} label={`${uploadProgress}%`} size='lg' />}
         </Stack>
       </form>

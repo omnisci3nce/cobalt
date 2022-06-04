@@ -9,3 +9,15 @@ Language: Typescript
 - Serving files: Nginx
 
 **Frontend:** SPA React using Vite.
+
+
+
+### Docker
+
+compile frontend
+
+backend API
+
+Nginx serves frontend and /uploads
+
+redis?
