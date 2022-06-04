@@ -5,13 +5,14 @@ import UsersRepository from './users.repository'
 const request = supertest(app)
 
 const dummyUser = {
-  id: '1',
+  user_id: '1',
     email: '',
     username: '',
     encrypted_password: '',
     created_at: new Date(),
     updated_at: new Date(),
-    deleted: false
+    deleted: false,
+    is_admin: false
 }
 
 jest.spyOn(UsersRepository.prototype, 'getAll').mockResolvedValue([dummyUser])

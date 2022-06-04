@@ -22,19 +22,24 @@ export const defaultOptions: CRUDOptions = {
   uuid: false
 }
 
-export default class CRUD<T, D extends Record<string, string | number | null>> implements IRepo<T, D> {
+export default class CRUD<T, D extends Record<string, string | number | boolean | null>> implements IRepo<T, D> {
   tableName: string
   schema: Validator<T>
   detailsSchema: Validator<D>
+  id_col: string = 'id'
   options: CRUDOptions
 
   constructor(
     tableName: string,
     schema: Validator<T>,
     detailsSchema: Validator<D>,
-    options?: CRUDOptions
+    options?: CRUDOptions,
+    id_col?: string
   ) {
     this.tableName = tableName
+    if (id_col) {
+      this.id_col = id_col
+    }
     this.schema = schema
     this.detailsSchema = detailsSchema
     this.options = options ? { ...defaultOptions, ...options } : defaultOptions
@@ -51,7 +56,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
   async getOne(id: string): Promise<T | undefined> {
     const db = await connect()
     if (!db) throw new Error('Couldnt get db')
-    const result = await db.query(`SELECT * from ${this.tableName} WHERE id = ${id}`)
+    const result = await db.query(`SELECT * from ${this.tableName} WHERE ${this.id_col} = ${id}`)
     db.release()
     return this.schema.parse(result.rows[0])
   }
@@ -68,12 +73,12 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     const query = { text: `
     INSERT INTO ${this.tableName} (${columns.join(', ')})
     VALUES (${values.map((_, i) => '$' + (i+1)).join(',')})
-    RETURNING id;`, values}
+    RETURNING ${this.id_col};`, values}
     Logger.debug(query)
     const result = await db.query(query)
 
     db.release()
-    return result.rows[0].id
+    return result.rows[0][this.id_col]
   }
 
   async update(id: string, details: Partial<D>): Promise<void> {
@@ -88,7 +93,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
           ${Object.keys(details).map((key, i) => {
             return `${key} = $${i + 2}`
           }).join(', ')}
-        WHERE id = ($1)${this.options.uuid && '::uuid'};`,
+        WHERE ${this.id_col} = ($1)${this.options.uuid && '::uuid'};`,
         values: [id, ...values]
     }
     
@@ -107,7 +112,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     if (this.options.softDelete) {
       await db.query(`UPDATE ${this.tableName} SET deleted = true WHERE id = ${id}`)
     } else {
-      await db.query({ text: `DELETE FROM ${this.tableName} WHERE id = ($1)${this.options.uuid && '::uuid'};`, values: [id]})
+      await db.query({ text: `DELETE FROM ${this.tableName} WHERE ${this.id_col} = ($1)${this.options.uuid && '::uuid'};`, values: [id]})
     }
     db.release()
   }

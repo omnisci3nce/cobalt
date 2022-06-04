@@ -1,10 +1,14 @@
-import { Card, Text, Button, createStyles, Group, ActionIcon } from '@mantine/core'
-import { Clock, Trash } from 'tabler-icons-react'
+import { Card, Text, Button, createStyles, Group } from '@mantine/core'
+import { useNavigate } from 'react-router-dom'
+import { Trash } from 'tabler-icons-react'
+import { useAuth } from '../hooks/use-auth';
 
 type Video = {
-  id: string;
+  video_id: string;
   name: string;
   filename: string;
+  created_at: Date;
+  created_by: string;
   // thumbnail: string;
 }
 
@@ -15,26 +19,35 @@ interface VideoCardProps {
 
 export default function VideoCard({ video, onDeleteClick }: VideoCardProps) {
   const { classes } = useStyles()
+  const navigate = useNavigate()
+  const auth = useAuth()
+  console.log(auth.user?.id)
+  console.log(video)
 
   return (
     <Card>
       <Card.Section>
-        <video controls crossOrigin='true' style={{ maxHeight: '200px' }} src={`/api/uploads/${video.id}/${video.filename}`} />
+        <video controls crossOrigin='true' style={{ maxHeight: '200px' }} src={`/api/uploads/${video.video_id}/${video.filename}`} />
         {/* <Image src={video.thumbnail} /> */}
       </Card.Section>
 
-      <Card.Section className={classes.info} mt='sm'>
+      <Card.Section className={classes.info} mt='sm' onClick={() => navigate(`/watch/${video.video_id}`)}>
         <Text size="lg" weight={500}>
           {video.name}
         </Text>
         <Text size='sm' color='dimmed'>
-          Uploaded 4 minutes ago
+          {new Intl.DateTimeFormat().format(new Date(video.created_at))}
+
         </Text>
       </Card.Section>
 
       <Group sx={{ justifyContent: 'flex-end', alignItems: 'center' }} pt='sm'>
+        { auth.user && ((video.created_by && auth.user?.id == video.created_by) || (auth.user.is_admin)) &&
         <Button variant='light' color='red' onClick={() => onDeleteClick()}><Trash size={18} /> </Button>
+        
+        }
       </Group>
+
 
     </Card>
   )
@@ -44,6 +57,7 @@ const useStyles = createStyles((theme) => ({
   info: {
     paddingLeft: theme.spacing.md,
     paddingRight: theme.spacing.md,
+    cursor: 'pointer'
   },
   watchLater: {
     color: theme.colors.gray[5],

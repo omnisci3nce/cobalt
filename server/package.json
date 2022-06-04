@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bullmq": "^1.85.3",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-fileupload": "^1.4.0",

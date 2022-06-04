@@ -1,5 +1,5 @@
 import { useForm } from '@mantine/form'
-import { Button, Textarea, TextInput, InputWrapper, Box, Stack, Progress, useMantineTheme, Group, Text } from '@mantine/core'
+import { Button, Textarea, TextInput, InputWrapper, Box, Stack, Progress } from '@mantine/core'
 import { useState } from 'react'
 import { createVideo, uploadVideo } from '../services/videos.service'
 import { useMutation, useQueryClient } from 'react-query'

@@ -5,6 +5,9 @@ import fs from 'fs/promises'
 import path from 'path'
 import VideosRepository from './videos.repository'
 import Logger from '../../lib/logger'
+import { Queue } from 'bullmq'
+
+const videoQueue = new Queue('videos')
 
 const router = Router()
 
@@ -15,9 +18,15 @@ router.get('/', async (req: Request, res: Response) => {
   return res.json(videos)
 })
 
+router.get('/:id', async (req: Request, res: Response) => {
+  const { id } = req.params
+  const video = await videosRepo.getOne(id)
+  return res.json(video)
+})
+
 router.post('/', async (req: Request, res: Response) => {
   const { name, description } = req.body
-  const videoId = await videosRepo.create({ name, description, filename: null })
+  const videoId = await videosRepo.create({ name, description, filename: null, created_by: req.session.user ? req.session.user.user_id : null })
   return res.json(videoId)
 })
 
@@ -38,17 +47,20 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
   try {
     let file = req.file
     try {
-      Logger.info(`Creating directory for ${video.id}`)
-      await fs.mkdir(path.join(process.cwd(), 'uploads', video.id))
+      Logger.info(`Creating directory for ${video.video_id}`)
+      await fs.mkdir(path.join(process.cwd(), 'uploads', video.video_id))
     } catch (err) {
       // 
     }
-    const destination = path.resolve(process.cwd(), `uploads/${video.id}/${file.originalname}`)
+    const destination = path.resolve(process.cwd(), `uploads/${video.video_id}/${file.originalname}`)
     Logger.info(`Copying ${file.path} into ${destination}`)
     await fs.copyFile(file.path, destination)
     Logger.info('Updating video entity')
-    await videosRepo.update(video.id, { filename: file.originalname })
-    // await fs.rename(file.path, destination)
+    await videosRepo.update(video.video_id, { filename: file.originalname })
+
+    Logger.info('Kicking off jobs')
+    await videoQueue.add('testJob', { message: 'Ping' })
+
     return res.status(204).end()
     
   } catch (err) {

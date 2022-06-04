@@ -1,10 +1,14 @@
 import { z } from 'zod'
-import { PrimaryKey, AuditSchema } from '../../lib/common'
+import { AuditSchema } from '../../lib/common'
+
+const ID = z.object({
+  video_id: z.string()
+})
 
 export const VideoUpdatableFieldsSchema = z.object({
   name: z.string().max(100),
   description: z.string(),
-
+  created_by: z.string().nullable()
 })
 export type VideoUpdatableFields = z.infer<typeof VideoUpdatableFieldsSchema>
 
@@ -16,7 +20,7 @@ export type VideoNonUpdatableFields = z.infer<typeof VideoNonUpdatableFieldsSche
 export const VideoDetailsSchema = VideoNonUpdatableFieldsSchema.merge(VideoUpdatableFieldsSchema)
 export type VideoDetails = z.infer<typeof VideoDetailsSchema>
 
-export const VideoSchema = PrimaryKey
+export const VideoSchema = ID
     .merge(VideoUpdatableFieldsSchema)
     .merge(VideoNonUpdatableFieldsSchema)
     .merge(AuditSchema)

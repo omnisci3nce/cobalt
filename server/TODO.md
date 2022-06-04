@@ -2,7 +2,7 @@
 
 - [ ] Setup Makefile
 - [x] Refactor user.ts (ID + UpdatableFields + NonUpdatable)
-- [ ] Setup testing
-- [ ] Use UUIDs instead of auto-increment IDs
-- [ ] Setup testing
+- [x] Setup testing (server)
+- [x] Use UUIDs instead of auto-increment IDs
+- [ ] Setup testing (client)
 - [ ] Generate thumbnail

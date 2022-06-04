@@ -14,6 +14,41 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: config; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.config (
+    config_id bigint NOT NULL,
+    name text NOT NULL,
+    display_name text NOT NULL,
+    type text NOT NULL,
+    default_value text NOT NULL,
+    value text NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_by bigint NOT NULL
+);
+
+
+--
+-- Name: config_config_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.config_config_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: config_config_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.config_config_id_seq OWNED BY public.config.config_id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -27,7 +62,7 @@ CREATE TABLE public.schema_migrations (
 --
 
 CREATE TABLE public.users (
-    id bigint NOT NULL,
+    user_id bigint NOT NULL,
     username character varying(20) NOT NULL,
     email character varying(80) NOT NULL,
     encrypted_password character varying(64) NOT NULL,
@@ -38,10 +73,10 @@ CREATE TABLE public.users (
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: users_user_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.users_id_seq
+CREATE SEQUENCE public.users_user_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -50,10 +85,10 @@ CREATE SEQUENCE public.users_id_seq
 
 
 --
--- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: users_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+ALTER SEQUENCE public.users_user_id_seq OWNED BY public.users.user_id;
 
 
 --
@@ -61,21 +96,38 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 --
 
 CREATE TABLE public.videos (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    video_id uuid DEFAULT gen_random_uuid() NOT NULL,
     name character varying(64) NOT NULL,
     description text,
     filename text,
     archived boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_at timestamp without time zone DEFAULT now() NOT NULL
+    created_by bigint,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_by bigint
 );
 
 
 --
--- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: config config_id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+ALTER TABLE ONLY public.config ALTER COLUMN config_id SET DEFAULT nextval('public.config_config_id_seq'::regclass);
+
+
+--
+-- Name: users user_id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.users_user_id_seq'::regclass);
+
+
+--
+-- Name: config config_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.config
+    ADD CONSTRAINT config_pkey PRIMARY KEY (config_id);
 
 
 --
@@ -91,7 +143,7 @@ ALTER TABLE ONLY public.schema_migrations
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (user_id);
 
 
 --
@@ -107,7 +159,31 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.videos
-    ADD CONSTRAINT videos_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT videos_pkey PRIMARY KEY (video_id);
+
+
+--
+-- Name: config config_updated_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.config
+    ADD CONSTRAINT config_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES public.users(user_id);
+
+
+--
+-- Name: videos videos_created_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.videos
+    ADD CONSTRAINT videos_created_by_fkey FOREIGN KEY (created_by) REFERENCES public.users(user_id);
+
+
+--
+-- Name: videos videos_updated_by_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.videos
+    ADD CONSTRAINT videos_updated_by_fkey FOREIGN KEY (updated_by) REFERENCES public.users(user_id);
 
 
 --
@@ -121,4 +197,6 @@ ALTER TABLE ONLY public.videos
 
 INSERT INTO public.schema_migrations (version) VALUES
     ('20220529030910'),
-    ('20220601085526');
+    ('20220601085526'),
+    ('20220604070650'),
+    ('20220604123753');

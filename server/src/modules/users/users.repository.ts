@@ -7,7 +7,7 @@ export default class UsersRepository extends CRUD<
   UserDetails
 > {
   constructor() {
-    super('public.users', UserSchema, UserDetailsSchema)
+    super('public.users', UserSchema, UserDetailsSchema, undefined, 'user_id')
   }
 
   async getByUsername(username: string): Promise<User> {
@@ -27,7 +27,7 @@ export default class UsersRepository extends CRUD<
       text: `
         UPDATE ${this.tableName} SET
           email = $2
-        WHERE id = $1;`,
+        WHERE user_id = $1;`,
       values: [id, details.email]
     }
 

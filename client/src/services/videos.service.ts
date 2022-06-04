@@ -4,6 +4,10 @@ async function getVideos() {
   return await fetch('/api/videos').then(res => res.json())
 }
 
+async function getVideo(id: string) {
+  return await fetch(`/api/videos/${id}`).then(res => res.json())
+}
+
 async function createVideo(data: any) {
   return await fetch('/api/videos', {
     method: 'POST',
@@ -34,4 +38,4 @@ async function deleteVideo(videoId: string) {
   })
 }
 
-export { getVideos, createVideo, uploadVideo, deleteVideo }
+export { getVideos, getVideo, createVideo, uploadVideo, deleteVideo }

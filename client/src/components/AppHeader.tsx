@@ -11,7 +11,7 @@ export default function () {
   const [loginFormOpened, setLoginFormOpened] = useState(false)
   const theme = useMantineTheme()
   const { classes } = useStyles()
-  const { user, login } = useAuth()
+  const { user, login, logout } = useAuth()
   console.log('User: ', user)
 
   return (
@@ -54,7 +54,7 @@ export default function () {
                   {theme.colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
                 </Menu.Item>
                 <Divider />
-                <Menu.Item>
+                <Menu.Item onClick={() => logout()}>
                   Logout
                 </Menu.Item>
               </Menu>
@@ -72,6 +72,6 @@ const useStyles = createStyles((theme) => ({
   },
   search: {
     flexGrow: 1,
-    maxWidth: '300px'
+    maxWidth: '330px'
   }
 }))

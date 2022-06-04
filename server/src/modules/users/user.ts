@@ -1,7 +1,11 @@
 import { z } from 'zod'
-import { PrimaryKey, AuditSchema, SoftDeleteSchema } from '../../lib/common'
+import { AuditSchema, SoftDeleteSchema } from '../../lib/common'
 
 // --- Schemas
+
+const ID = z.object({
+  user_id: z.string()
+})
 
 export const UserUpdatableFieldsSchema = z.object({
   email: z.string().max(80),
@@ -10,11 +14,12 @@ export const UserUpdatableFieldsSchema = z.object({
 export const UserNonUpdatableFieldsSchema = z.object({
   username: z.string().max(20),
   encrypted_password: z.string().max(64),
+  is_admin: z.boolean()
 })
 
 export const UserDetailsSchema = UserNonUpdatableFieldsSchema.merge(UserUpdatableFieldsSchema)
 
-export const UserSchema = PrimaryKey.merge(UserUpdatableFieldsSchema).merge(UserNonUpdatableFieldsSchema).merge(AuditSchema).merge(SoftDeleteSchema)
+export const UserSchema = ID.merge(UserUpdatableFieldsSchema).merge(UserNonUpdatableFieldsSchema).merge(AuditSchema).merge(SoftDeleteSchema)
 
 // --- Types
 
@@ -22,9 +27,5 @@ export type UserUpdatableFields = z.infer<typeof UserUpdatableFieldsSchema>;
 export type UserNonUpdatableFields = z.infer<typeof UserNonUpdatableFieldsSchema>;
 
 export type UserDetails = UserUpdatableFields & UserNonUpdatableFields
-
-
-export type Audit = z.infer<typeof AuditSchema>
-export type SoftDelete = z.infer<typeof SoftDeleteSchema>
 
 export type User = z.infer<typeof UserSchema>

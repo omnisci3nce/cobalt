@@ -14,7 +14,7 @@ create table videos (
     created_by bigint references users(user_id) default null,
 
     updated_at timestamp not null default now(),
-    updated_by bigint not null references users(user_id)
+    updated_by bigint references users(user_id) default null
 );
 
 -- migrate:down

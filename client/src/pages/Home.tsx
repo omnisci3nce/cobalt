@@ -1,4 +1,4 @@
-import { SimpleGrid, Paper } from '@mantine/core'
+import { SimpleGrid } from '@mantine/core'
 import { getVideos, deleteVideo } from '../services/videos.service'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import VideoCard from '../components/VideoCard'
@@ -18,7 +18,7 @@ export default function () {
           { maxWidth: 755, cols: 1, spacing: 'sm' },
         ]}
       >
-        {videos.isSuccess && videos.data.map((video: any) => <VideoCard key={video.id} video={video} onDeleteClick={() => deleteMutation.mutateAsync(video.id).then(() => queryClient.invalidateQueries('videos'))} />)}
+        {videos.isSuccess && videos.data.map((video: any) => <VideoCard key={video.video_id} video={video} onDeleteClick={() => deleteMutation.mutateAsync(video.video_id).then(() => queryClient.invalidateQueries('videos'))} />)}
       </SimpleGrid>
     </>
   )

@@ -12,8 +12,8 @@ router.get('/subscribe', async (req: Request, res: Response) => {
 
   res.writeHead(200, headers)
 
-  if (req.session.username) {
-    service.subscribe(req, res, req.session.username)
+  if (req.session.user) {
+    service.subscribe(req, res, req.session.user.username)
     return res.status(200).end()
   } else {
     return res.status(401).send('Must be logged in to receive notifications')
@@ -21,8 +21,8 @@ router.get('/subscribe', async (req: Request, res: Response) => {
 })
 
 router.get('/test', async (req: Request, res: Response) => {
-  if (req.session.username) {
-    service.publish(req.session.username, 'Hello')
+  if (req.session.user) {
+    service.publish(req.session.user.username, 'Hello')
   }
 })
 
