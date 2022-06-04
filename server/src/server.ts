@@ -9,8 +9,8 @@ http.globalAgent.maxSockets = 200
 
 
 const app = express()
-// app.use(morgan)
-// app.use(helmet({ crossOriginResourcePolicy: false }))
+app.use(morgan)
+app.use(helmet({ crossOriginResourcePolicy: false }))
 app.use(session({
   secret: 'keyboard cat',
   resave: false,

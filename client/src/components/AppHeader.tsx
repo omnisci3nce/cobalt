@@ -50,6 +50,9 @@ export default function () {
                 <Menu.Item>
                   Preferences
                 </Menu.Item>
+                <Menu.Item>
+                  {theme.colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
+                </Menu.Item>
                 <Divider />
                 <Menu.Item>
                   Logout
