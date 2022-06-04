@@ -99,7 +99,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     if (this.options.softDelete) {
       await db.query(`UPDATE ${this.tableName} SET deleted = true WHERE id = ${id}`)
     } else {
-      await db.query(`DELETE FROM ${this.tableName} WHERE id = ${id};`)
+      await db.query({ text: `DELETE FROM ${this.tableName} WHERE id = ($1)${this.options.uuid && '::uuid'};`, values: [id]})
     }
   }
 }

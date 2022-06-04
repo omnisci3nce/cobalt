@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import helmet from 'helmet'
 import session from 'express-session'
 import cors from 'cors'
@@ -18,7 +18,6 @@ app.use(session({
 app.use(express.json())
 app.use(morgan)
 app.use('/uploads', express.static('uploads'))
-
 app.use(routes)
 
 export default app

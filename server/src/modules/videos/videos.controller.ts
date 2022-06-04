@@ -10,7 +10,7 @@ const router = Router()
 const videosRepo = new VideosRepository()
 
 router.get('/', async (req: Request, res: Response) => {
-  const videos = await videosRepo.getAll() 
+  const videos = await videosRepo.getAll()
   return res.json(videos)
 })
 
@@ -59,7 +59,9 @@ router.put('/:id', async (req: Request, res: Response) => {
 })
 
 router.delete('/:id', async (req: Request, res: Response) => {
-
+  const { id } = req.params
+  await videosRepo.delete(id)
+  return res.status(200).end()
 })
 
 export default router

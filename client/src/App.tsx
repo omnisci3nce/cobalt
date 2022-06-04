@@ -1,6 +1,8 @@
-import { Card, Image, SimpleGrid, Text, Header, Button, Group, Box, Paper, TextInput } from '@mantine/core'
-import { useForm } from '@mantine/form'
+import { Card, SimpleGrid, Text, Header, Button, Group, Box, Paper, TextInput } from '@mantine/core'
 import { useQuery } from 'react-query'
+import { Trash, Upload } from 'tabler-icons-react';
+import { getVideos, deleteVideo } from './services/videos.service'
+import UploadForm from './components/UploadForm'
 
 type Video = {
   id: string;
@@ -26,66 +28,54 @@ function VideoCard({ video }: VideoCardProps) {
   return (
     <Card>
       <Card.Section>
-        <video style={{ maxHeight: '300px' }} crossOrigin='true' src={`http://localhost:8000/uploads/${video.id}/${video.filename}`} />
+        <video controls crossOrigin='true' style={{ maxHeight: '300px' }} src={`http://localhost:8000/uploads/${video.id}/${video.filename}`} />
         {/* <Image src={video.thumbnail} /> */}
       </Card.Section>
 
-      <Text weight={500} size='md'>{video.name}</Text>
+      <Text weight={600} size='md'>{video.name}</Text>
+
+      <Button variant='light' color='red' onClick={() => deleteVideo(video.id)}><Trash size={18} /> </Button>
     </Card>
   )
-} 
-
-async function getVideos() {
-  return await fetch('http://localhost:8000/videos').then(res => res.json())
-}
-
-interface FormValues {
-  name: string;
-  file: File | undefined; // values that may be undefined cannot be inferred
 }
 
 function App() {
-  const videos = useQuery('videos',  getVideos)
-
-  const form = useForm<FormValues>({
-    initialValues: {
-      name: '',
-      file: undefined
-    },
-    validate: {
-      name: (value) => (value.length <= 2 ? 'Video name must be over 2 characters' : value.length > 64 ? 'Video name must be 64 characters or less' : null)
-    }
-  })
+  const videos = useQuery('videos', getVideos)
 
   return (
-    <div style={{ height: '100vh' }}>
-    <Header height={60} p="xs">
-      <Group>
-      <Text weight={500} color='white'>Cobalt</Text>
-      <Button>Login</Button>
-      </Group>
-    </Header>
-    <Box sx={(theme) => ({
-      height: '100vh',
-      backgroundColor: theme.black
-    })}>
-    <SimpleGrid cols={4} p='md'>
-      {videos.isSuccess && videos.data.map((video: any) => <VideoCard key={video.id} video={video} />)}
-    </SimpleGrid>
+    <div style={{ minHeight: '100vh' }}>
+      <Header height={60} p="xs" px='xl'>
+        <Group sx={{ justifyContent: 'space-between', flexWrap: 'nowrap' }}>
+          <Text weight={600} size='lg' color='white'>Cobalt</Text>
+          <TextInput placeholder='Search...' />
+          <Group sx={{ flexWrap: 'nowrap' }}>
+            <Button leftIcon={<Upload size={20} />}>Upload</Button>
+            <Button variant='subtle' color='gray'>Login</Button>
+          </Group>
+        </Group>
+      </Header>
+      <Box p='xl' sx={(theme) => ({
+        minHeight: '100vh',
+        height: '100%',
+        backgroundColor: theme.black
+      })}>
+        <SimpleGrid
+          cols={4}
+          spacing="lg"
+          breakpoints={[
+            { maxWidth: 980, cols: 2, spacing: 'md' },
+            { maxWidth: 755, cols: 1, spacing: 'sm' },
+            // { maxWidth: 600, cols: 1, spacing: 'sm' },
+          ]}
+        >
+          {videos.isSuccess && videos.data.map((video: any) => <VideoCard key={video.id} video={video} />)}
+        </SimpleGrid>
 
-    <Paper shadow='md'>
-      <form onSubmit={form.onSubmit((values) => console.log(values))}>
-      <TextInput
-          label="Name"
-          placeholder="Name"
-          {...form.getInputProps('name')}
-        />
-        <input type='file' onChange={(event) => event.target.files && form.setFieldValue('file', event.target.files[0])} />
-        <Button type='submit' color='gray'>Submit</Button>
-      </form>
-    </Paper>
+        <Paper my='md' shadow='md' sx={{ maxWidth: '500px'}}>
+          <UploadForm />
+        </Paper>
 
-    </Box>
+      </Box>
     </div>
   )
 }
