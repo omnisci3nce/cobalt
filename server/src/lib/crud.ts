@@ -82,7 +82,7 @@ export default class CRUD<T, D extends Record<string, string | number | null>> i
     const query = { text: `
         UPDATE ${this.tableName} SET
           ${Object.keys(details).map((key, i) => {
-            return `${key} = '${i + 1}'`
+            return `${key} = $${i + 2}`
           }).join(', ')}
         WHERE id = ($1)${this.options.uuid && '::uuid'};`,
         values: [id, ...values]
