@@ -5,3 +5,4 @@
 - [ ] Setup testing
 - [ ] Use UUIDs instead of auto-increment IDs
 - [ ] Setup testing
+- [ ] Generate thumbnail

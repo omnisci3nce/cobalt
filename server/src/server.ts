@@ -1,12 +1,14 @@
 import express from 'express'
 import helmet from 'helmet'
 import session from 'express-session'
+import cors from 'cors'
 import routes from './routes'
 
 import { morgan } from './middlewares/logging'
 
 const app = express()
-app.use(helmet())
+app.use(cors())
+app.use(helmet({ crossOriginResourcePolicy: false }))
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -15,6 +17,7 @@ app.use(session({
 }))
 app.use(express.json())
 app.use(morgan)
+app.use('/uploads', express.static('uploads'))
 
 app.use(routes)
 
