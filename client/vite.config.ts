@@ -8,6 +8,9 @@ export default defineConfig({
     react(),
     // eslint()
   ],
+  build: {
+    target: 'es2015'
+  },
   server: {
     proxy: {
       '/api': {
