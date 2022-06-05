@@ -63,7 +63,7 @@ export default function UploadForm({ onSuccess } : { onSuccess: () => void }) {
           <TextInput
             label="Name"
             placeholder="Name"
-            {...form.getInputProps('name')}
+            {...form.getInputProps('name', { withError: false })}
             required
           />
           <Textarea label='Description' />

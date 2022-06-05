@@ -14,8 +14,8 @@ export default function({ onSuccess }: any) {
       console.log(values)
     })}>
       <Stack>
-        <TextInput label='Username' {...form.getInputProps('username')} />
-        <PasswordInput label='Password' {...form.getInputProps('password')} />
+        <TextInput label='Username' {...form.getInputProps('username', { withError: false })} />
+        <PasswordInput label='Password' {...form.getInputProps('password', { withError: false })} />
         <Button type='submit'>Submit</Button>
       </Stack>
     </form>
