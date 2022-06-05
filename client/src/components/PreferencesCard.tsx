@@ -1,4 +1,4 @@
-import { Card, createStyles, Group, Switch, Text } from "@mantine/core"
+import { Card, createStyles, Group, NumberInput, Switch, Text, TextInput } from "@mantine/core"
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -15,7 +15,15 @@ const useStyles = createStyles((theme) => ({
 export function PreferencesCard() {
   const { classes } = useStyles()
 
-  const items = () => (
+  const items = (<>
+    <Group className={classes.item} position='apart' noWrap spacing='xl'>
+      <div>
+      <Text>Instance name</Text>
+      <Text size='xs' color='dimmed'></Text>
+      </div>
+      <TextInput placeholder='Instance name' value='Cobalt' />
+    </Group>
+
     <Group className={classes.item} position='apart' noWrap spacing='xl'>
       <div>
       <Text>Anonymous uploads</Text>
@@ -23,15 +31,24 @@ export function PreferencesCard() {
       </div>
       <Switch onLabel='on' offLabel='off' size='lg' />
     </Group>
+
+    <Group className={classes.item} position='apart' noWrap spacing='xl'>
+      <div>
+      <Text>Maximum file size</Text>
+      <Text size='xs' color='dimmed'></Text>
+      </div>
+      <NumberInput placeholder='1024MB' />
+    </Group>
+  </>
   )
 
   return (
     <Card withBorder radius='md' p='xl' sx={{ maxWidth: '600px' }}>
-      <Text size='lg' weight={500}>
+      <Text size='lg' weight={500} mb='xl'>
         Configure preferences
       </Text>
       
-      {items()}
+      {items}
 
     </Card>
   )

@@ -52,7 +52,7 @@ export default function () {
               <Menu
                 control={<Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>}
               >
-                <Menu.Item>
+                <Menu.Item component={Link} to='/preferences'>
                   Preferences
                 </Menu.Item>
                 <Menu.Item>

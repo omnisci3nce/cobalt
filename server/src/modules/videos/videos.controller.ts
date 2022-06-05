@@ -6,6 +6,7 @@ import path from 'path'
 import VideosRepository from './videos.repository'
 import Logger from '../../lib/logger'
 import { Queue } from 'bullmq'
+import { generateThumbnail } from './videos.service'
 
 const videoQueue = new Queue('videos')
 
@@ -34,6 +35,7 @@ const upload = multer({ dest: os.tmpdir() })
 
 /** Upload the actual file for a video entity */
 router.post('/:id/upload', upload.single('video_file'), async (req: Request, res: Response) => {
+
   // Check that video with id exists
   const video = await videosRepo.getOne(req.params.id)
   if (!video) {
@@ -46,20 +48,26 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
 
   try {
     const file = req.file
+
     try {
       Logger.info(`Creating directory for ${video.video_id}`)
       await fs.mkdir(path.join(process.cwd(), 'uploads', video.video_id))
     } catch (err) {
       // 
     }
+
     const destination = path.resolve(process.cwd(), `uploads/${video.video_id}/${file.originalname}`)
     Logger.info(`Copying ${file.path} into ${destination}`)
     await fs.copyFile(file.path, destination)
     Logger.info('Updating video entity')
     await videosRepo.update(video.video_id, { filename: file.originalname })
 
-    Logger.info('Kicking off jobs')
-    await videoQueue.add('testJob', { message: 'Ping' })
+    // thumbnail
+    const thumbnail = await generateThumbnail(destination)
+    await fs.writeFile(path.resolve(process.cwd(), `uploads/${video.video_id}/thumbnail.png`), new Uint8Array(thumbnail))
+
+    // Logger.info('Kicking off jobs')
+    // await videoQueue.add('testJob', { message: 'Ping' })
 
     return res.status(204).end()
     
