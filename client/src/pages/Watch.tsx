@@ -11,9 +11,16 @@ export default function() {
       // marginLeft: 'auto',
       // marginRight: 'auto',
     }}> */}
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      width: '100%',
+    }}>
       {
         videoId && <WatchVideo videoId={videoId} />
       }
+
+    </Box>
     {/* </Box> */}
     </Container>
   )

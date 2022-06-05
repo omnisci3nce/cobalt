@@ -5,10 +5,10 @@ import fs from 'fs/promises'
 import path from 'path'
 import VideosRepository from './videos.repository'
 import Logger from '../../lib/logger'
-import { Queue } from 'bullmq'
+//import { Queue } from 'bullmq'
 import { generateThumbnail } from './videos.service'
 
-const videoQueue = new Queue('videos')
+//const videoQueue = new Queue('videos')
 
 const router = Router()
 

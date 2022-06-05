@@ -1,4 +1,5 @@
-import { Box} from '@mantine/core'
+import { useState } from 'react'
+import { Box, MantineProvider, ColorSchemeProvider, ColorScheme } from '@mantine/core'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Watch from './pages/Watch'
@@ -7,7 +8,13 @@ import AppFooter from './components/AppFooter'
 import Preferences from './pages/Preferences'
 
 function App() {
+  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+
   return (
+    <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+      <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
 
     <div style={{ minHeight: '100vh' }}>
       <AppHeader />
@@ -25,6 +32,8 @@ function App() {
       </Box>
         <AppFooter />
     </div>
+    </MantineProvider>
+    </ColorSchemeProvider>
   )
 }
 

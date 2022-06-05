@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Text, Header, Button, Group, TextInput, Modal, Menu, useMantineTheme, createStyles, Divider } from '@mantine/core'
+import { Text, Header, Button, Group, TextInput, Modal, Menu, useMantineTheme, createStyles, Divider, useMantineColorScheme } from '@mantine/core'
 import { Link } from 'react-router-dom'
-import { ChevronDown, Search, Upload } from 'tabler-icons-react'
+import { ChevronDown, MoonStars, Search, Settings, SettingsAutomation, SettingsOff, Sun, Upload } from 'tabler-icons-react'
 import UploadForm from './UploadForm'
 import LoginForm from './LoginForm'
 import { useAuth } from '../hooks/use-auth'
@@ -13,6 +13,7 @@ export default function () {
   const [loginFormOpened, setLoginFormOpened] = useState(false)
   const theme = useMantineTheme()
   const { classes } = useStyles()
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const { user, login, logout } = useAuth()
   const allowAnonUpload = useQuery(['config', { key: 'ALLOW_ANON_UPLOADS' }], () => getConfig('ALLOW_ANON_UPLOADS'))
   console.log('User: ', user)
@@ -52,11 +53,11 @@ export default function () {
               <Menu
                 control={<Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>}
               >
-                <Menu.Item component={Link} to='/preferences'>
+                <Menu.Item icon={<Settings size={18} />} component={Link} to='/preferences'>
                   Preferences
                 </Menu.Item>
-                <Menu.Item>
-                  {theme.colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
+                <Menu.Item icon={colorScheme === 'dark' ? <Sun size={18} /> : <MoonStars size={18} />} onClick={() => toggleColorScheme()}>
+                  {colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
                 </Menu.Item>
                 <Divider />
                 <Menu.Item onClick={() => logout()}>
