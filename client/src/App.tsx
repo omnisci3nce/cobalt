@@ -1,9 +1,10 @@
-import { Box } from '@mantine/core'
+import { Box} from '@mantine/core'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Watch from './pages/Watch'
 import AppHeader from './components/AppHeader'
 import AppFooter from './components/AppFooter'
+import Preferences from './pages/Preferences'
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/watch/:videoId' element={<Watch />} />
-          <Route path='/preferences' element={<></>} />
+          <Route path='/preferences' element={<Preferences />} />
           <Route path='/search' element={<></>}/>
         </Routes>
       </Box>

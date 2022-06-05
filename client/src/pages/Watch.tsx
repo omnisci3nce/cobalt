@@ -5,13 +5,14 @@ import WatchVideo from '../components/WatchVideo'
 export default function() {
   const { videoId } = useParams()
 
-  return videoId && (
+  return (
     <Box sx={{
       marginLeft: 'auto',
       marginRight: 'auto',
     }}>
-
-      <WatchVideo videoId={videoId} />
+      {
+        videoId && <WatchVideo videoId={videoId} />
+      }
 
     </Box>
   )

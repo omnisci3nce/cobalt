@@ -6,7 +6,7 @@ type NotificationListener = {
 type username = string
 
 class NotificationsService {
-  private _clients: Map<username, NotificationListener> = new Map();
+  private _clients: Map<username, NotificationListener> = new Map()
 
   public subscribe(req: Request, res: Response, username: string) {
     this._clients.set(username, { res })

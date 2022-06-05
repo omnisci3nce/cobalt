@@ -18,14 +18,14 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.config (
-    config_id bigint NOT NULL,
-    name text NOT NULL,
+    config_id integer NOT NULL,
+    key text NOT NULL,
     display_name text NOT NULL,
     type text NOT NULL,
     default_value text NOT NULL,
     value text NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    updated_by bigint NOT NULL
+    updated_by bigint
 );
 
 
@@ -34,6 +34,7 @@ CREATE TABLE public.config (
 --
 
 CREATE SEQUENCE public.config_config_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -68,7 +69,8 @@ CREATE TABLE public.users (
     encrypted_password character varying(64) NOT NULL,
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     updated_at timestamp without time zone DEFAULT now() NOT NULL,
-    deleted boolean DEFAULT false NOT NULL
+    deleted boolean DEFAULT false NOT NULL,
+    is_admin boolean DEFAULT false NOT NULL
 );
 
 

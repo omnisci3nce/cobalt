@@ -45,7 +45,7 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
   }
 
   try {
-    let file = req.file
+    const file = req.file
     try {
       Logger.info(`Creating directory for ${video.video_id}`)
       await fs.mkdir(path.join(process.cwd(), 'uploads', video.video_id))
@@ -78,6 +78,16 @@ router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params
   await videosRepo.delete(id)
   return res.status(204).end()
+})
+
+/** Search */
+
+interface VideoSearchQueryParams {
+  search_query: string;
+}
+
+router.get('/search', async (req, res) => {
+  
 })
 
 export default router

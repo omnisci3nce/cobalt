@@ -19,17 +19,16 @@ app.use(session({
 }))
 app.use(cors())
 app.use(express.json())
-// app.use(function(req: Request, res: Response, next: NextFunction) {
-//   try {
-//     next()
-//   } catch (err) {
-//     return res.status(500).json({
-//         status: false,
-//         error: 'Something went wrong'
-//     });
-
-//   }
-// });
+app.use(function(req: Request, res: Response, next: NextFunction) {
+  try {
+    next()
+  } catch (err) {
+    return res.status(500).json({
+        status: false,
+        error: 'Something went wrong'
+    })
+  }
+})
 app.use(routes)
 app.use('/uploads', express.static('uploads'))
 

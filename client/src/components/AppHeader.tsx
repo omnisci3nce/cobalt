@@ -5,6 +5,8 @@ import { ChevronDown, Search, Upload } from 'tabler-icons-react'
 import UploadForm from './UploadForm'
 import LoginForm from './LoginForm'
 import { useAuth } from '../hooks/use-auth'
+import { useQuery } from 'react-query'
+import { getConfig } from '../services/config.service'
 
 export default function () {
   const [uploadModalOpened, setUploadModalOpened] = useState(false)
@@ -12,7 +14,10 @@ export default function () {
   const theme = useMantineTheme()
   const { classes } = useStyles()
   const { user, login, logout } = useAuth()
+  const allowAnonUpload = useQuery(['config', { key: 'ALLOW_ANON_UPLOADS' }], () => getConfig('ALLOW_ANON_UPLOADS'))
   console.log('User: ', user)
+
+  const uploadEnabled = user || (allowAnonUpload.isSuccess && allowAnonUpload.data.value === 'true')
 
   return (
     <>
@@ -35,7 +40,7 @@ export default function () {
           <Text className={classes.appHeading} weight={600} size='lg' component={Link} to='/'>Cobalt</Text>
           <TextInput className={classes.search} icon={<Search size={18} />} placeholder='Search...' />
           <Group sx={{ flexWrap: 'nowrap' }}>
-            <Button leftIcon={<Upload size={20} />} onClick={() => setUploadModalOpened(true)}>Upload</Button>
+            <Button disabled={!uploadEnabled} leftIcon={<Upload size={20} />} onClick={() => setUploadModalOpened(true)}>Upload</Button>
             {/* <Text>{ JSON.stringify(user) }</Text> */}
             { !user && 
             <Button variant='subtle' onClick={() => {

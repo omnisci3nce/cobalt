@@ -1,5 +1,5 @@
 import { connect } from '../database'
-import Logger from './logger';
+import Logger from './logger'
 
 export interface IRepo<T, D> {
   getAll(): Promise<T[]>;
@@ -26,7 +26,7 @@ export default class CRUD<T, D extends Record<string, string | number | boolean 
   tableName: string
   schema: Validator<T>
   detailsSchema: Validator<D>
-  id_col: string = 'id'
+  id_col = 'id'
   options: CRUDOptions
 
   constructor(
