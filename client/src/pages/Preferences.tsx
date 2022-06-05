@@ -1,9 +1,12 @@
-import { Box } from "@mantine/core";
+import { Container, Center } from "@mantine/core";
 import { PreferencesCard } from "../components/PreferencesCard";
 
 export default function () {
   return (
-    <Box>
+    <Container>
+      <Center>
       <PreferencesCard />
-    </Box>)
+
+      </Center>
+    </Container>)
 }

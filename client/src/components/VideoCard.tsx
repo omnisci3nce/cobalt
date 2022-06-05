@@ -1,4 +1,4 @@
-import { Card, Text, Button, createStyles, Group } from '@mantine/core'
+import { Card, Text, Button, createStyles, Group, Image } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { Trash } from 'tabler-icons-react'
 import { useAuth } from '../hooks/use-auth';
@@ -26,9 +26,9 @@ export default function VideoCard({ video, onDeleteClick }: VideoCardProps) {
 
   return (
     <Card>
-      <Card.Section>
-        <video controls crossOrigin='true' style={{ maxHeight: '200px' }} src={`/api/uploads/${video.video_id}/${video.filename}`} />
-        {/* <Image src={video.thumbnail} /> */}
+      <Card.Section sx={{ height: '240px', cursor: 'pointer' }} onClick={() => navigate(`/watch/${video.video_id}`)}>
+        {/* <video controls crossOrigin='true' style={{ maxHeight: '200px' }} src={`/api/uploads/${video.video_id}/${video.filename}`} /> */}
+        <Image sx={{ height: '100%', overflow: 'hidden' }}src={`/api/uploads/${video.video_id}/thumbnail.png`} />
       </Card.Section>
 
       <Card.Section className={classes.info} mt='sm' onClick={() => navigate(`/watch/${video.video_id}`)}>

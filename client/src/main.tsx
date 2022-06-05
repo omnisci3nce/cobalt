@@ -23,7 +23,7 @@ const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
-      <MantineProvider theme={{ colorScheme: 'light' }}>
+      <MantineProvider theme={{ colorScheme: 'light' }} withNormalizeCSS>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <App />
