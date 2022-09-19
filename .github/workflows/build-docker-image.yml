@@ -17,3 +17,4 @@ jobs:
           with:
             push: true
             file: prod.Dockerfile
+            tags: ${{ steps.meta.outputs.tags }}
