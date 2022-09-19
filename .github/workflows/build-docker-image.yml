@@ -15,5 +15,4 @@ jobs:
           name: Build and push server image
           uses: docker/build-push-action@v3.1.1
           with:
-            context: .
             file: prod.Dockerfile
