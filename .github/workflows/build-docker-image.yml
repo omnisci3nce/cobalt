@@ -17,4 +17,4 @@ jobs:
           with:
             push: true
             tags: cobalt/server:latest
-            file: {context}/prod.Dockerfile
+            file: prod.Dockerfile
