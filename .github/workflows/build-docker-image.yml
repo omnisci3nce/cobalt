@@ -16,5 +16,12 @@ jobs:
           uses: docker/build-push-action@v3.1.1
           with:
             push: true
-            tags: ghcr.io/omnisci3nce/cobalt:latest
+            tags: ghcr.io/omnisci3nce/cobalt-server:latest
             file: prod.Dockerfile
+        -
+          name: Build and push client+nginx image
+          uses: docker/build-push-action@v3.1.1
+          with:
+            push: true
+            tags: ghcr.io/omnisci3nce/cobalt-client:latest
+            file: client.Dockerfile
