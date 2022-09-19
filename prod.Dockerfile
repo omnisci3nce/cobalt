@@ -22,8 +22,8 @@ COPY server/package.json server/package-lock.json ./
 RUN npm ci --production
 
 COPY --from=builder /server/build .
-COPY server/.prod.env ./.env
-COPY server/uploads/ ./uploads
+# COPY server/.prod.env ./.env
+# COPY server/uploads/ ./uploads
 RUN npm i pm2 -g
 EXPOSE 8000
 CMD ["pm2-runtime", "index.js"]
