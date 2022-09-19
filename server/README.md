@@ -31,4 +31,4 @@ pgadmin
 
 dbmate
 
-`docker run --rm -it --network=host -v "$(pwd)/db:/db" -e DATABASE_URL="postgres://postgres:docker@localhost/postgres?sslmode=disable" amacneil/dbmate up`
+`docker run --rm -it --network=host -v "$(pwd)/db:/db" -e DATABASE_URL="postgres://postgres:docker@localhost:5433/postgres?sslmode=disable" amacneil/dbmate up`
