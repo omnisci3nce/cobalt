@@ -1,3 +1,3 @@
-# stub
+# End-to-end Testing
 
-Use Cypress to do e2e tests
+Use [Playwright](https://playwright.dev/) to do e2e tests.
