@@ -20,14 +20,14 @@ const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | undefined>(undefined)
 
   // Attempt a login on mount so when we refresh page we can check that we're logged in
-  // useEffect(() => {
-  //   apiLogin('Joshua', 'joshua').then((data) => {
-  //     if (data.loggedIn) {
-  //       console.log('Data', data)
-  //       setUser(data)
-  //     }
-  //   })
-  // }, [])
+  useEffect(() => {
+    apiLogin('Joshua', 'joshua').then((data) => {
+      if (data.loggedIn) {
+        console.log('Data', data)
+        setUser(data)
+      }
+    })
+  }, [])
 
   return <AuthContext.Provider value={{ user, setUser }}>
     {children}

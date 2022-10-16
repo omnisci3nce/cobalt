@@ -1,4 +1,5 @@
 import { Card, createStyles, Group, NumberInput, Switch, Text, TextInput } from "@mantine/core"
+import { useForm } from "@mantine/form"
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -14,6 +15,10 @@ const useStyles = createStyles((theme) => ({
 
 export function PreferencesCard() {
   const { classes } = useStyles()
+
+  // const form = useForm({
+  //   instanceName: 
+  // })
 
   const items = (<>
     <Group className={classes.item} position='apart' noWrap spacing='xl'>

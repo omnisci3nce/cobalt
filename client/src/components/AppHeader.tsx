@@ -52,7 +52,7 @@ export default function () {
             {colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
             </Button>
 
-            {/* <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button> */}
+            <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button>
             { user && (
               <Menu
                 control={<Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>}
