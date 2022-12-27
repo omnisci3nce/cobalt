@@ -1,5 +1,5 @@
 import { useForm } from '@mantine/form'
-import { Button, Textarea, TextInput, InputWrapper, Box, Stack, Progress } from '@mantine/core'
+import { Button, Textarea, TextInput, Box, Stack, Progress, Input } from '@mantine/core'
 import { useState } from 'react'
 import { createVideo, uploadVideo } from '../services/videos.service'
 import { useMutation, useQueryClient } from 'react-query'
@@ -69,7 +69,7 @@ export default function UploadForm({ onSuccess } : { onSuccess: () => void }) {
           <Textarea label='Description' />
 
 
-          <InputWrapper label='File' required>
+          <Input.Wrapper label='File' required>
             {/* <Dropzone
               onDrop={(files) => {
                 console.log(files)
@@ -82,7 +82,7 @@ export default function UploadForm({ onSuccess } : { onSuccess: () => void }) {
               {(status) => dropzoneChildren(status)}
             </Dropzone> */}
             <input type='file' onChange={(event) => event.target.files && form.setFieldValue('file', event.target.files[0])} />
-          </InputWrapper>
+          </Input.Wrapper>
 
 
           <Button type='submit' color='primary'>Upload</Button>
