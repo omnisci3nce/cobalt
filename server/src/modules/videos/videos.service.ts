@@ -2,7 +2,7 @@ import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg'
 import Logger from '../../lib/logger'
 
 const ffmpegInstance = createFFmpeg({ log: true })
-let ffmpegLoadingPromise = ffmpegInstance.load()
+const ffmpegLoadingPromise = ffmpegInstance.load()
 
 ffmpegInstance.isLoaded()
 
@@ -12,8 +12,6 @@ async function generateThumbnail(videoFilePath: string) {
 
   const inputFileName = 'input-video'
   const outputFileName = 'output.png'
-
-  console.log('point 1')
 
   console.log(videoFilePath)
 
@@ -29,8 +27,6 @@ async function generateThumbnail(videoFilePath: string) {
   const outputData = ffmpegInstance.FS('readFile', outputFileName)
   ffmpegInstance.FS('unlink', inputFileName)
   ffmpegInstance.FS('unlink', outputFileName)
-
-  Logger.debug('HERE')
 
   return Buffer.from(outputData)
 }
