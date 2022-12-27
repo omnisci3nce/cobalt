@@ -41,4 +41,13 @@ router.get('/logout', async (req: Request, res: Response) => {
   return res.status(204).end()
 })
 
+router.get('/loggedIn', async (req: Request, res: Response) => {
+  if (req.session.user) {
+    console.log(req.session.user)
+    return res.json({ username: req.session.user.username, id: req.session.user.user_id, is_admin: req.session.user.is_admin})
+  } else {
+    return res.status(401).end()
+  }
+})
+
 export default router

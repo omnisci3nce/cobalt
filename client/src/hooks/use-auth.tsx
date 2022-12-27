@@ -1,32 +1,28 @@
 import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
-import { login as apiLogin, logout as apiLogout } from '../services/auth.service'
+import authService from '../services/auth.service'
 
-type User = {
+export type User = {
   username: string;
   id: string;
   is_admin: boolean;
 }
 
-interface AuthContextInterface {
+interface AuthContext {
   user?: User;
   setUser: Dispatch<SetStateAction<User | undefined>>
 }
 
-const AuthContext = createContext<AuthContextInterface>({ user: undefined, setUser: () => {
-  // 
-}})
+const AuthContext = createContext<AuthContext>({} as AuthContext)
 
 const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | undefined>(undefined)
 
   // Attempt a login on mount so when we refresh page we can check that we're logged in
   useEffect(() => {
-    apiLogin('Joshua', 'joshua').then((data) => {
-      if (data.loggedIn) {
-        console.log('Data', data)
-        setUser(data)
-      }
-    })
+    authService
+      .checkLoggedIn()
+      .then(setUser)
+      .catch(() => setUser(undefined))
   }, [])
 
   return <AuthContext.Provider value={{ user, setUser }}>
@@ -35,19 +31,19 @@ const AuthProvider = ({ children }: any) => {
 }
 
 const useAuth = () => {
-  const { user, setUser } =  useContext(AuthContext)
+  const { user, setUser } = useContext(AuthContext)
 
   const login = async (username: string, password: string) => {
-    const user = await apiLogin(username, password)
+    const user = await authService.login(username, password)
     setUser({ username: user.username, id: user.user_id, is_admin: user.is_admin })
-  } 
+  }
 
   const logout = async () => {
-    await apiLogout()
+    await authService.logout()
     setUser(undefined)
   }
 
-return { user, login, logout }
+  return { user, login, logout }
 }
 
 export { AuthProvider, useAuth }

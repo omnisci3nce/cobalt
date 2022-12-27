@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { User } from '../hooks/use-auth'
 
 async function login(username: string, password: string) {
   const res = await fetch('/api/auth/login', {
@@ -15,4 +16,9 @@ async function logout() {
   return axios.get('/api/auth/logout')
 }
 
-export { login, logout }
+async function checkLoggedIn() {
+  const res = await axios.get('/api/auth/loggedIn')
+  return res.data
+}
+
+export default { login, logout, checkLoggedIn }
