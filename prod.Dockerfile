@@ -26,4 +26,4 @@ COPY --from=builder /server/build .
 # COPY server/uploads/ ./uploads
 # RUN npm i pm2 -g
 EXPOSE 8000
-CMD ["npm", "run", "server"]
+CMD ["node", "index.js"]
