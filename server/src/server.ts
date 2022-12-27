@@ -30,6 +30,6 @@ app.use(express.json())
 //   }
 // })
 app.use(routes)
-app.use('/uploads', express.static('/var/lib/data/uploads'))
+app.use('/uploads', express.static('uploads'))
 
 export default app
