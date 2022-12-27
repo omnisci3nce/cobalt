@@ -16,7 +16,6 @@ export default function () {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const { user, login, logout } = useAuth()
   const allowAnonUpload = useQuery(['config', { key: 'ALLOW_ANON_UPLOADS' }], () => getConfig('ALLOW_ANON_UPLOADS'))
-  console.log('User: ', user)
 
   const uploadEnabled = user || (allowAnonUpload.isSuccess && allowAnonUpload.data.value === 'true')
 
@@ -42,18 +41,18 @@ export default function () {
           <TextInput className={classes.search} icon={<Search size={18} />} placeholder='Search...' />
           <Group sx={{ flexWrap: 'nowrap' }}>
             <Button disabled={!uploadEnabled} leftIcon={<Upload size={20} />} onClick={() => setUploadModalOpened(true)}>Upload</Button>
-            { !user && 
-            <Button variant='subtle' onClick={() => {
-              login('Joshua', 'joshua')
-            }}>Login</Button>
+            {!user &&
+              <Button variant='subtle' onClick={() => {
+                login('josh', 'josh')
+              }}>Login</Button>
             }
 
             <Button variant='subtle' leftIcon={colorScheme === 'dark' ? <Sun size={18} /> : <MoonStars size={18} />} onClick={() => toggleColorScheme()}>
-            {colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
+              {colorScheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
             </Button>
 
             <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button>
-            { user && (
+            {user && (
               <Menu
                 control={<Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>}
               >
@@ -61,7 +60,7 @@ export default function () {
                   Preferences
                 </Menu.Item>
                 <Menu.Item icon={colorScheme === 'dark' ? <Sun size={18} /> : <MoonStars size={18} />} onClick={() => toggleColorScheme()}>
-                  {colorScheme === 'dark' ? 'Light Mode' :'Dark Mode'}
+                  {colorScheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
                 </Menu.Item>
                 <Divider />
                 <Menu.Item onClick={() => logout()}>

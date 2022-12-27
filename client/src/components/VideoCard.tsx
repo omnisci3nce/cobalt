@@ -21,8 +21,6 @@ export default function VideoCard({ video, onDeleteClick }: VideoCardProps) {
   const { classes } = useStyles()
   const navigate = useNavigate()
   const auth = useAuth()
-  console.log(auth.user?.id)
-  console.log(video)
 
   return (
     <Card>
