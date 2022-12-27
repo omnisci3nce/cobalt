@@ -16,14 +16,13 @@ RUN npm run build
 # Stage 2 - Install production packages and run
 FROM node:16-alpine
 
-WORKDIR /usr
+WORKDIR /app
+
+RUN mkdir uploads
 
 COPY server/package.json server/package-lock.json ./
 RUN npm ci --production
 
 COPY --from=builder /server/build .
-# COPY server/.prod.env ./.env
-# COPY server/uploads/ ./uploads
-# RUN npm i pm2 -g
 EXPOSE 8000
 CMD ["node", "index.js"]
