@@ -53,19 +53,22 @@ export default function () {
 
             <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button>
             {user && (
-              <Menu
-                control={<Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>}
-              >
-                <Menu.Item icon={<Settings size={18} />} component={Link} to='/preferences'>
-                  Preferences
-                </Menu.Item>
-                <Menu.Item icon={colorScheme === 'dark' ? <Sun size={18} /> : <MoonStars size={18} />} onClick={() => toggleColorScheme()}>
-                  {colorScheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                </Menu.Item>
-                <Divider />
-                <Menu.Item onClick={() => logout()}>
-                  Logout
-                </Menu.Item>
+              <Menu position='bottom-end'>
+                <Menu.Target>
+                  <Button variant='subtle' size='sm' rightIcon={<ChevronDown size={18} />}>{user.username}</Button>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item icon={<Settings size={18} />} component={Link} to='/preferences'>
+                    Preferences
+                  </Menu.Item>
+                  <Menu.Item icon={colorScheme === 'dark' ? <Sun size={18} /> : <MoonStars size={18} />} onClick={() => toggleColorScheme()}>
+                    {colorScheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                  </Menu.Item>
+                  <Divider />
+                  <Menu.Item onClick={() => logout()}>
+                    Logout
+                  </Menu.Item>
+                </Menu.Dropdown>
               </Menu>
             )}
           </Group>
