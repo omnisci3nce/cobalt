@@ -51,12 +51,12 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
 
     try {
       Logger.info(`Creating directory for ${video.video_id}`)
-      await fs.mkdir(path.join(process.cwd(), 'uploads', video.video_id))
+      await fs.mkdir(path.join('/var/lib/data/uploads/', video.video_id))
     } catch (err) {
-      // 
+      console.error('error creating directory')
     }
 
-    const destination = path.resolve(process.cwd(), `uploads/${video.video_id}/${file.originalname}`)
+    const destination = path.resolve('/var/lib/data/', `uploads/${video.video_id}/${file.originalname}`)
     Logger.info(`Copying ${file.path} into ${destination}`)
     await fs.copyFile(file.path, destination)
     Logger.info('Updating video entity')
@@ -64,7 +64,7 @@ router.post('/:id/upload', upload.single('video_file'), async (req: Request, res
 
     // thumbnail
     const thumbnail = await generateThumbnail(destination)
-    await fs.writeFile(path.resolve(process.cwd(), `uploads/${video.video_id}/thumbnail.png`), new Uint8Array(thumbnail))
+    await fs.writeFile(path.resolve('/var/lib/data/', `uploads/${video.video_id}/thumbnail.png`), new Uint8Array(thumbnail))
 
     // Logger.info('Kicking off jobs')
     // await videoQueue.add('testJob', { message: 'Ping' })
