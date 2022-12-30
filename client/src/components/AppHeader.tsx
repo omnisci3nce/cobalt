@@ -41,17 +41,16 @@ export default function () {
           <TextInput className={classes.search} icon={<Search size={18} />} placeholder='Search...' />
           <Group sx={{ flexWrap: 'nowrap' }}>
             <Button disabled={!uploadEnabled} leftIcon={<Upload size={20} />} onClick={() => setUploadModalOpened(true)}>Upload</Button>
-            {!user &&
-              <Button variant='subtle' onClick={() => {
-                login('josh', 'josh')
-              }}>Login</Button>
-            }
 
             <Button variant='subtle' leftIcon={colorScheme === 'dark' ? <Sun size={18} /> : <MoonStars size={18} />} onClick={() => toggleColorScheme()}>
               {colorScheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
             </Button>
 
-            <Button variant='subtle' color='gray' onClick={() => setLoginFormOpened(true)}>Login</Button>
+            {!user &&
+              <Button variant='subtle' onClick={() => {
+                login('josh', 'josh')
+              }}>Login</Button>
+            }
             {user && (
               <Menu position='bottom-end'>
                 <Menu.Target>
