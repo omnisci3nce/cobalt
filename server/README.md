@@ -27,7 +27,7 @@ postgres
 
 pgadmin
 
-`docker run --name pg_dashboard -p 5488:80 -e PGADMIN_DEFAULT_EMAIL=josh@josh.com -e PGADMIN_DEFAULT_PASSWORD=josh -d dpage/pgadmin4`
+`docker run --name pg_dashboard -p 5488:80 -e PGADMIN_DEFAULT_EMAIL=admin@email.com -e PGADMIN_DEFAULT_PASSWORD=admin -d dpage/pgadmin4`
 
 dbmate
 

@@ -48,7 +48,7 @@ export default function () {
 
             {!user &&
               <Button variant='subtle' onClick={() => {
-                login('josh', 'josh')
+                login('admin', 'admin')
               }}>Login</Button>
             }
             {user && (
