@@ -34,4 +34,21 @@ export default class UsersRepository extends CRUD<
     await db.query(query)
     db.release()
   }
+
+  async updatePassword(id: string, password: string, salt: string): Promise<void> {
+    const db = await connect()
+    if (!db) throw new Error('Couldnt get db')
+
+    const query = {
+      text: `
+        UPDATE ${this.tableName} SET
+          password = $2,
+          salt = $3
+        WHERE user_id = $1;`,
+      values: [id, password, salt]
+    }
+
+    await db.query(query)
+    db.release()
+  }
 }

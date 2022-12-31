@@ -13,7 +13,7 @@ export const UserUpdatableFieldsSchema = z.object({
 
 export const UserNonUpdatableFieldsSchema = z.object({
   username: z.string().max(20),
-  encrypted_password: z.string().max(64),
+  password: z.string().max(64),
   is_admin: z.boolean()
 })
 

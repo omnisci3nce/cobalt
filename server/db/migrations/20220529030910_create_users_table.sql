@@ -6,7 +6,8 @@ create table users (
   -- details
   username varchar(20) not null unique,
   email varchar(80) not null,
-  encrypted_password varchar(64) not null,
+  password text not null,
+  salt text not null,
 
   -- audit
   created_at timestamp not null default now(),

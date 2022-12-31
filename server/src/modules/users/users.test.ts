@@ -8,7 +8,7 @@ const dummyUser = {
   user_id: '1',
     email: '',
     username: '',
-    encrypted_password: '',
+    password: '',
     created_at: new Date(),
     updated_at: new Date(),
     deleted: false,

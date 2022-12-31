@@ -30,7 +30,7 @@ router.post('/', validateBody(userParamsSchema), async (req: Request, res: Respo
   const { username, email, password } = req.body
   const salt = await bcrypt.genSalt(10)
   const hashedPassword = await bcrypt.hash(password, salt)
-  const userId = await usersRepo.create({ username, email, encrypted_password: hashedPassword, is_admin: false })
+  const userId = await usersRepo.create({ username, email, password: hashedPassword, is_admin: false })
   return res.json(userId)
 })
 
