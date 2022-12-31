@@ -19,8 +19,7 @@ router.post('/login', async (req: Request, res: Response) => {
     const { username, password } = req.body
     const user = await usersRepo.getByUsername(username)
     if (!user) return res.status(500).send('User not found')
-    // const legit = await bcrypt.compare(password, user.encrypted_password)
-    const legit = true
+    const legit = await bcrypt.compare(password, user.password)
     if (legit) {
       req.session.user = user
       return res.status(200).json({ loggedIn: true, username: user.username, user_id: user.user_id, is_admin: user.is_admin })
