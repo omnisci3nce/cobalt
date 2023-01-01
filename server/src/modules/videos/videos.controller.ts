@@ -5,14 +5,11 @@ import fs from 'fs/promises'
 import path from 'path'
 import VideosRepository from './videos.repository'
 import Logger from '../../lib/logger'
-//import { Queue } from 'bullmq'
 import { generateThumbnail } from './videos.service'
 
-//const videoQueue = new Queue('videos')
+const videosRepo = new VideosRepository()
 
 const router = Router()
-
-const videosRepo = new VideosRepository()
 
 router.get('/', async (req: Request, res: Response) => {
   const videos = await videosRepo.getAll()

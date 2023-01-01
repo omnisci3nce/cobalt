@@ -1,9 +1,5 @@
 import { z } from 'zod'
 
-// const ID = z.object({
-//   config_id: z.string()
-// })
-
 export const ConfigSchema = z.object({
   config_id: z.number(),
 
