@@ -48,7 +48,7 @@ export default function () {
 
             {!user &&
               <Button variant='subtle' onClick={() => {
-                login('admin', 'admin')
+                setLoginFormOpened(true)
               }}>Login</Button>
             }
             {user && (
