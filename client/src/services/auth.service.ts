@@ -2,14 +2,8 @@ import axios from 'axios'
 import { User } from '../hooks/use-auth'
 
 async function login(username: string, password: string) {
-  const res = await fetch('/api/auth/login', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ username, password }) } ).then(res => res.json())
-  return res
+  const res = await axios.post('/api/auth/login', { username, password })
+  return res.data
 }
 
 async function logout() {
