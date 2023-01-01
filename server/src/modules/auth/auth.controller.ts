@@ -18,17 +18,17 @@ router.post('/login', async (req: Request, res: Response) => {
   try {
     const { username, password } = req.body
     const user = await usersRepo.getByUsername(username)
-    if (!user) return res.status(500).send('User not found')
+    if (!user) return res.status(400).json({ loggedIn: false, message: 'User not found' })
     const legit = await bcrypt.compare(password, user.password)
     if (legit) {
       req.session.user = user
       return res.status(200).json({ loggedIn: true, username: user.username, user_id: user.user_id, is_admin: user.is_admin })
     } else {
-      return res.status(400).json({ loggedIn: false, status: 'Incorrect username or password' })
+      return res.status(400).json({ loggedIn: false, message: 'Incorrect username or password' })
     }
   } catch (err) {
-    console.error(err)
-    return res.status(400).json({ loggedIn: false, status: 'Incorrect username or password'})
+    Logger.error(err)
+    return res.status(400).json({ loggedIn: false, message: 'Incorrect username or password'})
   }
   
 })
@@ -42,7 +42,7 @@ router.get('/logout', async (req: Request, res: Response) => {
 
 router.get('/loggedIn', async (req: Request, res: Response) => {
   if (req.session.user) {
-    console.log(req.session.user)
+    Logger.silly(req.session.user)
     return res.json({ username: req.session.user.username, id: req.session.user.user_id, is_admin: req.session.user.is_admin})
   } else {
     return res.status(401).end()
