@@ -13,7 +13,7 @@ export default class Database {
       host: process.env.POSTGRES_HOST || 'localhost',
       user: process.env.POSTGRES_USER || 'postgres',
       database: process.env.POSTGRES_DB || 'postgres',
-      password: process.env.POSTGRES_PWD || 'docker',
+      password: process.env.POSTGRES_PWD || 'postgres',
       port: Number(process.env.DB_PORT || '5432')
     })
   }
