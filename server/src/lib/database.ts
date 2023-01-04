@@ -6,12 +6,10 @@ import 'dotenv/config'
  * common operations like connect and release.
  */
 export default class Database {
-  private static pool: Pool
+  private pool: Pool
   
-  constructor() {}
-
-  public static createPool() {
-    Database.pool = new Pool({
+  constructor() {
+    this.pool = new Pool({
       host: process.env.POSTGRES_HOST || 'localhost',
       user: process.env.POSTGRES_USER || 'postgres',
       database: process.env.POSTGRES_DB || 'postgres',
@@ -20,7 +18,7 @@ export default class Database {
     })
   }
 
-  public static async query(sql: string, params: any[]): Promise<QueryResult<any>> {
+  public async query(sql: string, params: any[]): Promise<QueryResult<any>> {
     const client = await this.connect()
     try {
       const result = await client.query(sql, params)
@@ -32,11 +30,19 @@ export default class Database {
     }
   }
 
-  private static async connect(): Promise<PoolClient> {
+  private async connect(): Promise<PoolClient> {
     return this.pool.connect()
   }
 
-  public static disconnect() {
+  public disconnect() {
     this.pool.end()
   }
+}
+
+let db: Database
+export const getDb = () => {
+  if (!db) {
+    db = new Database()
+  }
+  return db
 }

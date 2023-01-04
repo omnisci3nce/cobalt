@@ -1,32 +1,28 @@
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg'
-import Logger from '../../lib/logger'
+import { fetchFile } from '@ffmpeg/ffmpeg'
+import FFmpegSingleton from '../../loaders/ffmpeg'
+FFmpegSingleton
 
-const ffmpegInstance = createFFmpeg({ log: true })
-const ffmpegLoadingPromise = ffmpegInstance.load()
-
-ffmpegInstance.isLoaded()
 
 // async function moveFileToUploads() {}
 async function generateThumbnail(videoFilePath: string) {
-  if (!ffmpegInstance.isLoaded()) throw new Error('ffmpeg must be available')
-
+  const ffmpeg = FFmpegSingleton.getInstance() 
   const inputFileName = 'input-video'
   const outputFileName = 'output.png'
 
   console.log(videoFilePath)
 
-  ffmpegInstance.FS('writeFile', inputFileName, await fetchFile(videoFilePath))
+  ffmpeg.FS('writeFile', inputFileName, await fetchFile(videoFilePath))
 
-  await ffmpegInstance.run(
+  await ffmpeg.run(
     '-ss', '00:00:01.000',
     '-i', inputFileName,
     '-frames:v', '1',
     outputFileName
   )
 
-  const outputData = ffmpegInstance.FS('readFile', outputFileName)
-  ffmpegInstance.FS('unlink', inputFileName)
-  ffmpegInstance.FS('unlink', outputFileName)
+  const outputData = ffmpeg.FS('readFile', outputFileName)
+  ffmpeg.FS('unlink', inputFileName)
+  ffmpeg.FS('unlink', outputFileName)
 
   return Buffer.from(outputData)
 }

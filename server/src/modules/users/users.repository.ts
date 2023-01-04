@@ -1,6 +1,6 @@
 import CRUD from '../../lib/crud'
+import { getDb } from '../../lib/database'
 import { User, UserDetails, UserDetailsSchema, UserSchema } from './user'
-import { connect } from '../../database'
 
 export default class UsersRepository extends CRUD<
   User,
@@ -11,18 +11,12 @@ export default class UsersRepository extends CRUD<
   }
 
   async getByUsername(username: string): Promise<User> {
-    const db = await connect()
-    if (!db) throw new Error('Couldnt get db')
-    const result = await db.query({ text: `SELECT * FROM ${this.tableName} WHERE username = $1`, values: [username] })
+    const result = await getDb().query(`SELECT * FROM ${this.tableName} WHERE username = $1`, [username])
     // const user = UserSchema.parse(result.rows[0])
-    db.release()
     return result.rows[0]
   }
 
   async update(id: string, details: { email: string }): Promise<void> {
-    const db = await connect()
-    if (!db) throw new Error('Couldnt get db')
-
     const query = {
       text: `
         UPDATE ${this.tableName} SET
@@ -31,14 +25,10 @@ export default class UsersRepository extends CRUD<
       values: [id, details.email]
     }
 
-    await db.query(query)
-    db.release()
+    await getDb().query(query.text, query.values)
   }
 
   async updatePassword(id: string, password: string, salt: string): Promise<void> {
-    const db = await connect()
-    if (!db) throw new Error('Couldnt get db')
-
     const query = {
       text: `
         UPDATE ${this.tableName} SET
@@ -48,7 +38,6 @@ export default class UsersRepository extends CRUD<
       values: [id, password, salt]
     }
 
-    await db.query(query)
-    db.release()
+    await getDb().query(query.text, query.values)
   }
 }

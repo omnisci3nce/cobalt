@@ -6,8 +6,9 @@ import path from 'path'
 import VideosRepository from './videos.repository'
 import Logger from '../../lib/logger'
 import { generateThumbnail } from './videos.service'
+import { getDb } from '../../lib/database'
 
-const videosRepo = new VideosRepository()
+const videosRepo = new VideosRepository(getDb())
 
 const router = Router()
 
