@@ -1,7 +1,5 @@
 import { fetchFile } from '@ffmpeg/ffmpeg'
 import FFmpegSingleton from '../../loaders/ffmpeg'
-FFmpegSingleton
-
 
 // async function moveFileToUploads() {}
 async function generateThumbnail(videoFilePath: string) {
