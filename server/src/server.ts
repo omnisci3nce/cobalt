@@ -5,6 +5,7 @@ import cors from 'cors'
 import routes from './routes'
 import { morgan } from './middlewares/logging'
 import http from 'http'
+import { loadAll } from './loaders'
 http.globalAgent.maxSockets = 200
 
 
@@ -31,5 +32,7 @@ app.use(express.json())
 // })
 app.use(routes)
 app.use('/uploads', express.static('uploads'))
+
+loadAll()
 
 export default app
