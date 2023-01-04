@@ -21,14 +21,10 @@ Based on boilerplate here https://github.com/omnisci3nce/postgresql-repo
 
 ## Setup
 
-postgres
-
-`docker run --name postgres-db -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres`
-
 pgadmin
 
 `docker run --name pg_dashboard -p 5488:80 -e PGADMIN_DEFAULT_EMAIL=admin@email.com -e PGADMIN_DEFAULT_PASSWORD=admin -d dpage/pgadmin4`
 
 dbmate
 
-`docker run --rm -it --network=host -v "$(pwd)/db:/db" -e DATABASE_URL="postgres://postgres:docker@localhost:5433/postgres?sslmode=disable" amacneil/dbmate up`
+`docker run --rm -it --network=host -v "$(pwd)/db:/db" -e DATABASE_URL="postgres://postgres:postgres@localhost:5433/cobalt?sslmode=disable" amacneil/dbmate up`
