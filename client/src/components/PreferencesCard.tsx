@@ -9,9 +9,8 @@ const useStyles = createStyles((theme) => ({
     '& + &': {
       paddingTop: theme.spacing.sm,
       marginTop: theme.spacing.sm,
-      borderTop: `1px solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
-      }`,
+      borderTop: `1px solid ${theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[2]
+        }`,
     },
   }
 }))
@@ -27,10 +26,10 @@ const PreferencesForm = () => {
   const queryClient = useQueryClient()
   const { isLoading, isError, data: configs } = useQuery('preferences', () => getConfigs(['INSTANCE_NAME', 'ALLOW_ANON_UPLOADS']), { staleTime: Infinity })
   const { mutate, isLoading: isSubmitting } = useMutation({
-    mutationFn: async () => { throw Error('')},
+    mutationFn: async () => { throw Error('') },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: 'preferences' }), // reload preferences from server-side after form submission
   })
-  
+
   const form = useForm<PreferencesFormFields>({
     initialValues: {
       instanceName: '',
@@ -53,40 +52,44 @@ const PreferencesForm = () => {
     return mutate()
   }
 
-  if (isLoading) return <Loader />
   if (isError) return <span>Unable to fetch server settings</span>
 
-  return configs && (
-    <form onSubmit={form.onSubmit(handleSubmit)}>
-      <Group className={classes.item} position='apart' noWrap spacing='xl'>
-        <div>
-          <Text>Instance name</Text>
-          <Text size='xs' color='dimmed'></Text>
-        </div>
-        <TextInput placeholder='Instance name' {...form.getInputProps('instanceName', { withError: false })} />
-      </Group>
+  if (configs) {
+    return (
+      <form onSubmit={form.onSubmit(handleSubmit)}>
+        <Group className={classes.item} position='apart' noWrap spacing='xl'>
+          <div>
+            <Text>Instance name</Text>
+            <Text size='xs' color='dimmed'></Text>
+          </div>
+          <TextInput placeholder='Instance name' {...form.getInputProps('instanceName', { withError: false })} />
+        </Group>
 
-      <Group className={classes.item} position='apart' noWrap spacing='xl'>
-        <div>
-          <Text>Anonymous uploads</Text>
-          <Text size='xs' color='dimmed'>Allow anyone to upload videos, even those who are not logged in.</Text>
-        </div>
-        <Switch onLabel='on' offLabel='off' size='lg' {...form.getInputProps('allowAnonUploads', { type: 'checkbox', withError: false })} />
-      </Group>
+        <Group className={classes.item} position='apart' noWrap spacing='xl'>
+          <div>
+            <Text>Anonymous uploads</Text>
+            <Text size='xs' color='dimmed'>Allow anyone to upload videos, even those who are not logged in.</Text>
+          </div>
+          <Switch onLabel='on' offLabel='off' size='lg' {...form.getInputProps('allowAnonUploads', { type: 'checkbox', withError: false })} />
+        </Group>
 
-      <Group className={classes.item} position='apart' noWrap spacing='xl'>
-        <div>
-          <Text>Maximum file size</Text>
-          <Text size='xs' color='dimmed'></Text>
-        </div>
-        <NumberInput placeholder='1024MB' {...form.getInputProps('maxFileSize', { withError: false })} />
-      </Group>
+        <Group className={classes.item} position='apart' noWrap spacing='xl'>
+          <div>
+            <Text>Maximum file size</Text>
+            <Text size='xs' color='dimmed'></Text>
+          </div>
+          <NumberInput placeholder='1024MB' {...form.getInputProps('maxFileSize', { withError: false })} />
+        </Group>
 
-      <Group position='right' className={classes.item}>
-        <Button type='submit' disabled={isSubmitting}>Save</Button>
-      </Group>
-    </form>
-  )}
+        <Group position='right' className={classes.item}>
+          <Button type='submit' disabled={isSubmitting}>Save</Button>
+        </Group>
+      </form>
+    )
+  } else {
+    return <Loader />
+  }
+}
 
 export function PreferencesCard() {
   return (
@@ -94,7 +97,7 @@ export function PreferencesCard() {
       <Text size='lg' weight={500} mb='xl'>
         Configure preferences
       </Text>
-      
+
       <PreferencesForm />
 
     </Card>
