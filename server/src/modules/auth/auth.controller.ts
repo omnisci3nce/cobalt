@@ -42,7 +42,6 @@ router.get('/logout', async (req: Request, res: Response) => {
 
 router.get('/loggedIn', async (req: Request, res: Response) => {
   if (req.session.user) {
-    Logger.silly(req.session.user)
     return res.json({ username: req.session.user.username, id: req.session.user.user_id, is_admin: req.session.user.is_admin})
   } else {
     return res.status(401).end()
