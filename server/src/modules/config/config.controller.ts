@@ -6,11 +6,11 @@ const router = Router()
 
 const configRepo = new ConfigRepository()
 
-router.get('/', async (req, res) => {
+router.get('/', permitAdmin, async (req, res) => {
   return res.status(204).end()
 })
 
-router.get('/:key', async (req, res) => {
+router.get('/:key', permitAdmin, async (req, res) => {
   const config = await configRepo.getByKey(req.params.key)
   return res.json(config)
 })
