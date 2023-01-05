@@ -4,7 +4,7 @@ import FFmpegSingleton from './ffmpeg'
 
 export async function loadAll() {
   Logger.info('run all loaders')
-  await FFmpegSingleton.startFFmpeg() // load ffmpeg
+  // await FFmpegSingleton.startFFmpeg() // load ffmpeg
   Logger.info('loaded FFmpeg')
 
   try {

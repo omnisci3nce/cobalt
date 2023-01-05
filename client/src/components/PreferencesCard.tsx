@@ -1,6 +1,7 @@
-import { Card, createStyles, Group, Loader, NumberInput, Switch, Text, TextInput } from '@mantine/core'
+import { Button, Card, createStyles, Group, Loader, NumberInput, Switch, Text, TextInput } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { useQuery } from 'react-query'
+import { useEffect } from 'react'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { getConfig, getConfigs } from '../services/config.service'
 
 const useStyles = createStyles((theme) => ({
@@ -21,68 +22,80 @@ interface PreferencesFormFields {
   maxFileSize: number
 }
 
-const Form = ({ initialValues } : { initialValues: PreferencesFormFields }) => {
+const PreferencesForm = () => {
   const { classes } = useStyles()
+  const queryClient = useQueryClient()
+  const { isLoading, isError, data: configs } = useQuery('preferences', () => getConfigs(['INSTANCE_NAME', 'ALLOW_ANON_UPLOADS']), { staleTime: Infinity })
+  const { mutate, isLoading: isSubmitting } = useMutation({
+    mutationFn: async () => { throw Error('')},
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: 'preferences' }), // reload preferences from server-side after form submission
+  })
+  
+  const form = useForm<PreferencesFormFields>({
+    initialValues: {
+      instanceName: '',
+      allowAnonUploads: false,
+      maxFileSize: 1024
+    }
+  })
 
-  // const form = useForm({
-  //   instanceName: 
-  // })
+  useEffect(() => {
+    if (configs) {
+      form.setValues({
+        instanceName: configs['INSTANCE_NAME'].value,
+        allowAnonUploads: configs['ALLOW_ANON_UPLOADS'].value === 'true',
+        maxFileSize: 1024
+      })
+    }
+  }, [configs])
 
-  return (<>
-    <Group className={classes.item} position='apart' noWrap spacing='xl'>
-      <div>
-        <Text>Instance name</Text>
-        <Text size='xs' color='dimmed'></Text>
-      </div>
-      <TextInput placeholder='Instance name' defaultValue={initialValues.instanceName} />
-    </Group>
+  const handleSubmit = async (values: PreferencesFormFields) => {
+    return mutate()
+  }
 
-    <Group className={classes.item} position='apart' noWrap spacing='xl'>
-      <div>
-        <Text>Anonymous uploads</Text>
-        <Text size='xs' color='dimmed'>Allow anyone to upload videos, even those who are not logged in.</Text>
-      </div>
-      <Switch onLabel='on' offLabel='off' size='lg' defaultChecked={initialValues.allowAnonUploads} />
-    </Group>
+  if (isLoading) return <Loader />
+  if (isError) return <span>Unable to fetch server settings</span>
 
-    <Group className={classes.item} position='apart' noWrap spacing='xl'>
-      <div>
-        <Text>Maximum file size</Text>
-        <Text size='xs' color='dimmed'></Text>
-      </div>
-      <NumberInput placeholder='1024MB' />
-    </Group>
-  </>
+  return (
+    <form onSubmit={form.onSubmit(handleSubmit)}>
+      <Group className={classes.item} position='apart' noWrap spacing='xl'>
+        <div>
+          <Text>Instance name</Text>
+          <Text size='xs' color='dimmed'></Text>
+        </div>
+        <TextInput placeholder='Instance name' {...form.getInputProps('instanceName', { withError: false })} />
+      </Group>
+
+      <Group className={classes.item} position='apart' noWrap spacing='xl'>
+        <div>
+          <Text>Anonymous uploads</Text>
+          <Text size='xs' color='dimmed'>Allow anyone to upload videos, even those who are not logged in.</Text>
+        </div>
+        <Switch onLabel='on' offLabel='off' size='lg' {...form.getInputProps('allowAnonUploads', { type: 'checkbox', withError: false })} />
+      </Group>
+
+      <Group className={classes.item} position='apart' noWrap spacing='xl'>
+        <div>
+          <Text>Maximum file size</Text>
+          <Text size='xs' color='dimmed'></Text>
+        </div>
+        <NumberInput placeholder='1024MB' {...form.getInputProps('maxFileSize', { withError: false })} />
+      </Group>
+
+      <Group position='right' className={classes.item}>
+        <Button type='submit' disabled={isSubmitting}>Save</Button>
+      </Group>
+    </form>
   )}
 
 export function PreferencesCard() {
-  const keys = ['INSTANCE_NAME', 'ALLOW_ANON_UPLOADS']
-  const { isLoading, isError, data, error } = useQuery(['preferences', keys], () => getConfigs(keys))
-
-  console.log(data)
-
-  const body = () => {
-    if (isLoading) {
-      return <Loader />
-    } else if (isError) {
-      return <Text size='sm'>Unable to fetch preferences</Text>
-    } else {
-      return data && (<Form initialValues={{
-        instanceName: data['INSTANCE_NAME'].value,
-        allowAnonUploads: data['ALLOW_ANON_UPLOADS'].value === 'true',
-        maxFileSize: 1024
-      }} /> )
-    }
-  }
-
-
   return (
     <Card withBorder radius='md' p='xl' sx={{ maxWidth: '600px' }}>
       <Text size='lg' weight={500} mb='xl'>
         Configure preferences
       </Text>
       
-      {body()}
+      <PreferencesForm />
 
     </Card>
   )
