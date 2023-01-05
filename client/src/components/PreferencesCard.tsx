@@ -1,7 +1,7 @@
-import { Card, createStyles, Group, Loader, NumberInput, Switch, Text, TextInput } from "@mantine/core"
-import { useForm } from "@mantine/form"
-import { useQuery } from "react-query";
-import { getConfig, getConfigs } from "../services/config.service";
+import { Card, createStyles, Group, Loader, NumberInput, Switch, Text, TextInput } from '@mantine/core'
+import { useForm } from '@mantine/form'
+import { useQuery } from 'react-query'
+import { getConfig, getConfigs } from '../services/config.service'
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -29,31 +29,31 @@ const Form = ({ initialValues } : { initialValues: PreferencesFormFields }) => {
   // })
 
   return (<>
-  <Group className={classes.item} position='apart' noWrap spacing='xl'>
-    <div>
-    <Text>Instance name</Text>
-    <Text size='xs' color='dimmed'></Text>
-    </div>
-    <TextInput placeholder='Instance name' defaultValue={initialValues.instanceName} />
-  </Group>
+    <Group className={classes.item} position='apart' noWrap spacing='xl'>
+      <div>
+        <Text>Instance name</Text>
+        <Text size='xs' color='dimmed'></Text>
+      </div>
+      <TextInput placeholder='Instance name' defaultValue={initialValues.instanceName} />
+    </Group>
 
-  <Group className={classes.item} position='apart' noWrap spacing='xl'>
-    <div>
-    <Text>Anonymous uploads</Text>
-    <Text size='xs' color='dimmed'>Allow anyone to upload videos, even those who are not logged in.</Text>
-    </div>
-    <Switch onLabel='on' offLabel='off' size='lg' defaultChecked={initialValues.allowAnonUploads} />
-  </Group>
+    <Group className={classes.item} position='apart' noWrap spacing='xl'>
+      <div>
+        <Text>Anonymous uploads</Text>
+        <Text size='xs' color='dimmed'>Allow anyone to upload videos, even those who are not logged in.</Text>
+      </div>
+      <Switch onLabel='on' offLabel='off' size='lg' defaultChecked={initialValues.allowAnonUploads} />
+    </Group>
 
-  <Group className={classes.item} position='apart' noWrap spacing='xl'>
-    <div>
-    <Text>Maximum file size</Text>
-    <Text size='xs' color='dimmed'></Text>
-    </div>
-    <NumberInput placeholder='1024MB' />
-  </Group>
-</>
-)}
+    <Group className={classes.item} position='apart' noWrap spacing='xl'>
+      <div>
+        <Text>Maximum file size</Text>
+        <Text size='xs' color='dimmed'></Text>
+      </div>
+      <NumberInput placeholder='1024MB' />
+    </Group>
+  </>
+  )}
 
 export function PreferencesCard() {
   const keys = ['INSTANCE_NAME', 'ALLOW_ANON_UPLOADS']

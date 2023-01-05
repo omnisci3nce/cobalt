@@ -1,5 +1,5 @@
-import { ActionIcon, Footer, Group, Text } from "@mantine/core";
-import { BrandGithub } from "tabler-icons-react";
+import { ActionIcon, Footer, Group, Text } from '@mantine/core'
+import { BrandGithub } from 'tabler-icons-react'
 
 export default function() {
   return (

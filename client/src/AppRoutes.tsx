@@ -1,9 +1,9 @@
 
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Watch from './pages/Watch'
 import Preferences from './pages/Preferences'
-import { useAuth } from "./hooks/use-auth"
+import { useAuth } from './hooks/use-auth'
 
 export default function() {
   const { user } = useAuth()

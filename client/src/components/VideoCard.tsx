@@ -1,7 +1,7 @@
 import { Card, Text, Button, createStyles, Group, Image } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { Trash } from 'tabler-icons-react'
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from '../hooks/use-auth'
 
 type Video = {
   video_id: string;

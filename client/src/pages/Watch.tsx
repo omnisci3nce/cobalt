@@ -7,21 +7,21 @@ export default function() {
 
   return (
     <Container size={1280}>
-    {/* <Box sx={{
+      {/* <Box sx={{
       // marginLeft: 'auto',
       // marginRight: 'auto',
     }}> */}
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      width: '100%',
-    }}>
-      {
-        videoId && <WatchVideo videoId={videoId} />
-      }
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+      }}>
+        {
+          videoId && <WatchVideo videoId={videoId} />
+        }
 
-    </Box>
-    {/* </Box> */}
+      </Box>
+      {/* </Box> */}
     </Container>
   )
 }
