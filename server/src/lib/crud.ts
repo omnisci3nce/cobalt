@@ -1,4 +1,4 @@
-import { getDb } from './database';
+import { getDb } from './database'
 import Logger from './logger'
 
 export interface IRepo<T, D> {

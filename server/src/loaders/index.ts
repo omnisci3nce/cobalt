@@ -1,6 +1,6 @@
-import { getDb } from "../lib/database";
-import Logger from "../lib/logger";
-import FFmpegSingleton from "./ffmpeg";
+import { getDb } from '../lib/database'
+import Logger from '../lib/logger'
+import FFmpegSingleton from './ffmpeg'
 
 export async function loadAll() {
   Logger.info('run all loaders')
@@ -17,5 +17,5 @@ export async function loadAll() {
 }
 
 export async function shutdownAll() {
-
+  // 
 }
