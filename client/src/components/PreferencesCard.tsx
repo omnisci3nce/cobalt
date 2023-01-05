@@ -1,7 +1,7 @@
-import { Card, createStyles, Group, NumberInput, Switch, Text, TextInput } from "@mantine/core"
+import { Card, createStyles, Group, Loader, NumberInput, Switch, Text, TextInput } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useQuery } from "react-query";
-import { getConfig } from "../services/config.service";
+import { getConfig, getConfigs } from "../services/config.service";
 
 const useStyles = createStyles((theme) => ({
   item: {
@@ -34,7 +34,7 @@ const Form = ({ initialValues } : { initialValues: PreferencesFormFields }) => {
     <Text>Instance name</Text>
     <Text size='xs' color='dimmed'></Text>
     </div>
-    <TextInput placeholder='Instance name' value='Cobalt' />
+    <TextInput placeholder='Instance name' defaultValue={initialValues.instanceName} />
   </Group>
 
   <Group className={classes.item} position='apart' noWrap spacing='xl'>
@@ -56,18 +56,25 @@ const Form = ({ initialValues } : { initialValues: PreferencesFormFields }) => {
 )}
 
 export function PreferencesCard() {
-  const { isLoading, isError, data, error } = useQuery(
-    ['config', { key: 'ALLOW_ANON_UPLOADS' }],
-    () => getConfig('ALLOW_ANON_UPLOADS')
-  )
+  const keys = ['INSTANCE_NAME', 'ALLOW_ANON_UPLOADS']
+  const { isLoading, isError, data, error } = useQuery(['preferences', keys], () => getConfigs(keys))
 
-  if (isLoading) {
-    return <span>Loading...</span>
+  console.log(data)
+
+  const body = () => {
+    if (isLoading) {
+      return <Loader />
+    } else if (isError) {
+      return <Text size='sm'>Unable to fetch preferences</Text>
+    } else {
+      return data && (<Form initialValues={{
+        instanceName: data['INSTANCE_NAME'].value,
+        allowAnonUploads: data['ALLOW_ANON_UPLOADS'].value === 'true',
+        maxFileSize: 1024
+      }} /> )
+    }
   }
 
-  if (isError) {
-    return <span>Unable to fetch preferences:</span>
-  }
 
   return (
     <Card withBorder radius='md' p='xl' sx={{ maxWidth: '600px' }}>
@@ -75,11 +82,7 @@ export function PreferencesCard() {
         Configure preferences
       </Text>
       
-      <Form initialValues={{
-        instanceName: 'Cobalt',
-        allowAnonUploads: data,
-        maxFileSize: 1024
-      }} />
+      {body()}
 
     </Card>
   )
