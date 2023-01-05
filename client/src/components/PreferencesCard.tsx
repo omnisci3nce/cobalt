@@ -56,7 +56,7 @@ const PreferencesForm = () => {
   if (isLoading) return <Loader />
   if (isError) return <span>Unable to fetch server settings</span>
 
-  return (
+  return configs && (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Group className={classes.item} position='apart' noWrap spacing='xl'>
         <div>
