@@ -1,0 +1,13 @@
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+  {%for video in videos %}
+  <div>
+    <img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg" alt="">
+    <div class="flex flex-row justify-between">
+      <span class="font-medium">
+        {{video.title}}
+      </span>
+      <span class="text-sm text-gray-700">{{video.playing_time}}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
