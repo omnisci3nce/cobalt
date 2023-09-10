@@ -3,3 +3,8 @@
 _build/
 uploads/
 *.env
+
+
+# Added by cargo
+
+/target
